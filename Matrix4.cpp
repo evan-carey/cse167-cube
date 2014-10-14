@@ -58,20 +58,6 @@ Matrix4 Matrix4::operator*(const Matrix4& m2) {
 			m[i][j] = sum;
 		}
 	}
-	
-	
-	/*
-	m[0][0] = m[0][0] * m2.get(0, 0) + m[0][1] * m2.get(1, 0) + m[0][2] * m2.get(2, 0) + m[0][3] * m2.get(3, 0);
-	m[1][0] = m[1][0] * m2.get(0, 0) + m[1][1] * m2.get(1, 0) + m[1][2] * m2.get(2, 0) + m[1][3] * m2.get(3, 0);
-	m[2][0] = m[2][0] * m2.get(0, 0) + m[2][1] * m2.get(1, 0) + m[2][2] * m2.get(2, 0) + m[2][3] * m2.get(3, 0);
-	m[3][0] = m[3][0] * m2.get(0, 0) + m[3][1] * m2.get(1, 0) + m[3][2] * m2.get(2, 0) + m[3][3] * m2.get(3, 0);
-
-	m[0][1] = m[0][0] * m2.get(0, 1) + m[0][1] * m2.get(1, 1) + m[0][2] * m2.get(2, 1) + m[0][3] * m2.get(3, 1);
-	m[1][1] = m[1][0] * m2.get(0, 1) + m[1][1] * m2.get(1, 1) + m[1][2] * m2.get(2, 1) + m[1][3] * m2.get(3, 1);
-	m[2][1] = m[2][0] * m2.get(0, 1) + m[2][1] * m2.get(1, 1) + m[2][2] * m2.get(2, 1) + m[2][3] * m2.get(3, 1);
-	m[3][1] = m[3][0] * m2.get(0, 1) + m[3][1] * m2.get(1, 1) + m[3][2] * m2.get(2, 1) + m[3][3] * m2.get(3, 1);
-	*/
-
 	return *this;
 }
 
@@ -106,17 +92,6 @@ Vector4 Matrix4::operator*(const Vector4& v) {
 	double w = m[3][0] * v.getX() + m[3][1] * v.getY() + m[3][2] * v.getZ() + m[3][3] * v.getW();
 
 	return Vector4(x, y, z, w);
-
-	/*double n[4];
-	double temp_sum;
-	for (int i = 0; i < 4; i++) {
-		temp_sum = 0.0;
-		for (int j = 0; j < 4; j++) {
-			temp_sum += m[i][j] * v.get(j);
-		}
-		n[i] = temp_sum;
-	}
-	return Vector4(n[0], n[1], n[2], n[3]);*/
 }
 
 // return pointer to matrix elements
@@ -194,26 +169,12 @@ void Matrix4::makeRotateY(double angle) {
 						-sin(angle), 0.0, cos(angle), 0.0,
 						0.0, 0.0, 0.0, 1.0);
 
-	//*this *= rm;
-
 	Matrix4 *res = this->multiply(rm);
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			m[i][j] = res->get(i, j);
 		}
 	}
-	
-
-	/*double c = cos(angle);
-	double s = sin(angle);
-	m[0][0] = m[0][0] * c + m[2][0] * s;
-	m[2][0] = m[0][0] * -s + m[2][0] * c;
-	m[0][1] = m[0][1] * c + m[2][1] * s;
-	m[2][1] = m[0][1] * -s + m[2][1] * c;
-	m[0][2] = m[0][2] * c + m[2][2] * s;
-	m[2][2] = m[0][2] * -s + m[2][2] * c;
-	m[0][3] = m[0][3] * c + m[2][3] * s;
-	m[2][3] = m[0][3] * -s + m[2][3] * c;*/
 }
 
 // Creates a rotation matrix which rotates about the z axis.
@@ -221,47 +182,21 @@ void Matrix4::makeRotateY(double angle) {
 void Matrix4::makeRotateZ(double angle) {
 	angle = angle / 180.0 * M_PI;
 
-	/*m[0][0] = cos(angle);	m[0][1] = -sin(angle);	m[0][2] = 0.0;	m[0][3] = 0.0;
-	m[1][0] = sin(angle);	m[1][1] = cos(angle);	m[1][2] = 0.0;	m[1][3] = 0.0;
-	m[2][0] = 0.0;			m[2][1] = 0.0;			m[2][2] = 1.0;	m[2][3] = 0.0;
-	m[3][0] = 0.0;			m[3][1] = 0.0;			m[3][2] = 0.0;	m[3][3] = 1.0;*/
-
 	Matrix4 rm = Matrix4(cos(angle), -sin(angle), 0.0, 0.0,
 						sin(angle), cos(angle), 0.0, 0.0,
 						0.0, 0.0, 1.0, 0.0,
 						0.0, 0.0, 0.0, 1.0);
-
 	*this *= rm;
-
-	/*
-	Matrix4 *res = this->multiply(rm);
-	//Matrix4 *res = rm.multiply(*this);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			m[i][j] = res->get(i, j);
-		}
-	}
-	*/
 }
 
 void Matrix4::makeOrbitZ(double angle) {
 	angle = angle / 180.0 * M_PI;
 
-	/*
-	m[0][0] = cos(angle);	m[0][1] = -sin(angle);	m[0][2] = 0.0;	m[0][3] = 0.0;
-	m[1][0] = sin(angle);	m[1][1] = cos(angle);	m[1][2] = 0.0;	m[1][3] = 0.0;
-	m[2][0] = 0.0;			m[2][1] = 0.0;			m[2][2] = 1.0;	m[2][3] = 0.0;
-	m[3][0] = 0.0;			m[3][1] = 0.0;			m[3][2] = 0.0;	m[3][3] = 1.0;
-	*/
-
 	Matrix4 rm = Matrix4(cos(angle), -sin(angle), 0.0, 0.0,
 						sin(angle), cos(angle), 0.0, 0.0,
 						0.0, 0.0, 1.0, 0.0,
 						0.0, 0.0, 0.0, 1.0);
 
-	//*this *= rm;
-	//*this = rm * *this;
-	//Matrix4 *res = this->multiply(rm);
 	Matrix4 *res = rm.multiply(*this);
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
@@ -298,27 +233,6 @@ void Matrix4::makeScale(double sx, double sy, double sz) {
 						0.0, 0.0, 0.0, 1.0);
 
 	*this *= sm;
-	/*
-	Matrix4* res = this->multiply(sm);
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			m[i][j] = res->get(i, j);
-		}
-	}
-	*/
-	
-
-	/*
-	m[0][0] *= sx;	m[0][1] *= 0.0;	m[0][2] *= 0.0;	m[0][3] *= 0.0;
-	m[1][0] *= 0.0;	m[1][1] *= sy;	m[1][2] *= 0.0;	m[1][3] *= 0.0;
-	m[2][0] *= 0.0;	m[2][1] *= 0.0;	m[2][2] *= sz;	m[2][3] *= 0.0;
-	m[3][0] = 0.0;	m[3][1] = 0.0;	m[3][2] = 0.0;	m[3][3] = 1.0;
-	*/
-	
-	/*m[0][0] *= sx;	m[0][1] *= sx;	m[0][2] *= sx;	m[0][3] *= sx;
-	m[1][0] *= sy;	m[1][1] *= sy;	m[1][2] *= sy;	m[1][3] *= sy;
-	m[2][0] *= sz;	m[2][1] *= sz;	m[2][2] *= sz;	m[2][3] *= sz;
-	*/
 }
 
 void Matrix4::makeTranslate(double tx, double ty, double tz) {
@@ -335,26 +249,6 @@ void Matrix4::makeTranslate(double tx, double ty, double tz) {
 			m[i][j] = res->get(i, j);
 		}
 	}
-	
-	
-	//*this = *this * translationMatrix;
-	//(*this * translationMatrix).transpose();
-	//transpose();
-	
-	//m[3][0] = tx + m[3][0];
-	//m[3][1] = ty + m[3][1];
-	//m[3][2] = tz + m[3][2];
-	
-	//m[0][3] += tx;
-	//m[1][3] += ty;
-	//m[2][3] += tz;
-
-	/*
-	m[0][0] += m[3][0] * tx;	m[0][1] += m[3][1] * tx;	m[0][2] += m[3][2] * tx;	m[0][3] += m[3][3] * tx;
-	m[1][0] += m[3][0] * ty;	m[1][1] += m[3][1] * ty;	m[1][2] += m[3][2] * ty;	m[1][3] += m[3][3] * ty;
-	m[2][0] += m[3][0] * tz;	m[2][1] += m[3][1] * tz;	m[2][2] += m[3][2] * tz;	m[2][3] += m[3][3] * tz;
-	*/
-	//transpose();
 }
 
 void Matrix4::print(std::string comment) {
