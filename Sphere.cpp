@@ -7,6 +7,7 @@ Sphere::Sphere() {
 	visible = false;
 	color = { 1.0, 0.0, 0.0 };
 	spinAngle = 1.0;
+	gravity = -0.07;
 }
 
 Sphere::Sphere(double radius, Vector4& v, bool visible, double spinAngle, float r, float g, float b) {
@@ -90,8 +91,9 @@ void Sphere::spin(double deg) { // deg is in degrees
 
 void Sphere::move() {
 	model2world.makeTranslate(velocity.getX(), velocity.getY(), velocity.getZ());
-
+	
 	checkCollisions();
+	applyGravity(gravity);
 }
 
 void Sphere::checkCollisions() {
@@ -110,6 +112,9 @@ void Sphere::checkCollisions() {
 	// Y - check lower wall
 	if (model2world.get(1, 3) < -8.0) {
 		velocity.setY(-1.0 * velocity.getY());
+		gravity = 0.0;
+	} else {
+		gravity = -0.07;
 	}
 	// Z - check front wall
 	if (model2world.get(2, 3) > 6.0) {
@@ -129,4 +134,10 @@ void Sphere::resetSphere() {
 	//color = { 1.0, 0.0, 0.0 };
 	//spinAngle = 1.0;
 	model2world.identity();
+}
+
+void Sphere::applyGravity(double g) {
+	//Vector4 grav = Vector4(0.0, g, 0.0, 1.0);
+	//if (velocity.getY() != 0.0)
+		velocity.setY(velocity.getY() + g);
 }

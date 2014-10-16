@@ -12,6 +12,7 @@ protected:
 	bool visible;
 	Matrix4 model2world;
 	double spinAngle;
+	double gravity;
 
 	struct COLOR {
 		float red;
@@ -54,6 +55,8 @@ public:
 	void checkCollisions();
 
 	void resetSphere();
+
+	void applyGravity(double);
 };
 
 #endif
