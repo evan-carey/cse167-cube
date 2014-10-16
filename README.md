@@ -14,6 +14,7 @@ Controls:
 * r/R - Reset the cube's position, orientation, size, and color
 * o/O - Orbit the cube counterclockwise/clockwise around the OpenGL window's z-axis by a small number of degrees (e.g. 10)
 * s/S - Scale the cube down/up
+* b/B - Switch between cube and sphere
 * ESC - End program 
 
 After each key press, the cube's position is written to the console window.
