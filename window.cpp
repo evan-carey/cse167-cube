@@ -16,8 +16,14 @@ int Window::height = 512;   // set window height in pixels here
 // Callback method called when system is idle.
 void Window::idleCallback()
 {
-  Globals::cube.spin(Globals::cube.getSpinAngle());   // rotate cube; if it spins too fast try smaller values and vice versa
-  displayCallback();         // call display routine to show the cube
+	if (Globals::cube.isVisible()) {
+		Globals::cube.spin(Globals::cube.getSpinAngle());   // rotate cube; if it spins too fast try smaller values and vice versa
+	}
+	if (Globals::sphere.isVisible()) {
+		Globals::sphere.spin(Globals::sphere.getSpinAngle());
+		Globals::sphere.move();
+	}
+	displayCallback();         // call display routine to show the cube
 }
 
 //----------------------------------------------------------------------------
@@ -37,64 +43,93 @@ void Window::reshapeCallback(int w, int h)
 
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when window readraw is necessary or when glutPostRedisplay() was called.
-void Window::displayCallback()
-{
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
-  glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
+void Window::displayCallback() {
+	if (Globals::cube.isVisible()) {
+		displayCube();
+	}
+	if (Globals::sphere.isVisible()) {
+		displaySphere();
+	}
+}
 
-  // Tell OpenGL what ModelView matrix to use:
-  Matrix4 glmatrix;
-  glmatrix = Globals::cube.getMatrix();
-  glmatrix.transpose();
-  glLoadMatrixd(glmatrix.getPointer());
+void Window::displayCube() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
+	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 
-  // Draw all six faces of the cube:
-  glBegin(GL_QUADS);
-    glColor3f(Globals::cube.getRed(), Globals::cube.getGreen() , Globals::cube.getBlue());		// This makes the cube green; the parameters are for red, green and blue. 
-                                // To change the color of the other faces you will need to repeat this call before each face is drawn.
-    // Draw front face:
-    glNormal3f(0.0, 0.0, 1.0);   
-    glVertex3f(-5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0,  5.0);
-    glVertex3f( 5.0, -5.0,  5.0);
-    glVertex3f(-5.0, -5.0,  5.0);
-    
-    // Draw left side:
-    glNormal3f(-1.0, 0.0, 0.0);
-    glVertex3f(-5.0,  5.0,  5.0);
-    glVertex3f(-5.0,  5.0, -5.0);
-    glVertex3f(-5.0, -5.0, -5.0);
-    glVertex3f(-5.0, -5.0,  5.0);
-    
-    // Draw right side:
-    glNormal3f(1.0, 0.0, 0.0);
-    glVertex3f( 5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0, -5.0);
-    glVertex3f( 5.0, -5.0, -5.0);
-    glVertex3f( 5.0, -5.0,  5.0);
-  
-    // Draw back face:
-    glNormal3f(0.0, 0.0, -1.0);
-    glVertex3f(-5.0,  5.0, -5.0);
-    glVertex3f( 5.0,  5.0, -5.0);
-    glVertex3f( 5.0, -5.0, -5.0);
-    glVertex3f(-5.0, -5.0, -5.0);
-  
-    // Draw top side:
-    glNormal3f(0.0, 1.0, 0.0);
-    glVertex3f(-5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0,  5.0);
-    glVertex3f( 5.0,  5.0, -5.0);
-    glVertex3f(-5.0,  5.0, -5.0);
-  
-    // Draw bottom side:
-    glNormal3f(0.0, -1.0, 0.0);
-    glVertex3f(-5.0, -5.0, -5.0);
-    glVertex3f( 5.0, -5.0, -5.0);
-    glVertex3f( 5.0, -5.0,  5.0);
-    glVertex3f(-5.0, -5.0,  5.0);
-  glEnd();
-  
-  glFlush();  
-  glutSwapBuffers();
+	// Tell OpenGL what ModelView matrix to use:
+	Matrix4 glmatrix;
+	glmatrix = Globals::cube.getMatrix();
+	glmatrix.transpose();
+	glLoadMatrixd(glmatrix.getPointer());
+
+	// Draw all six faces of the cube:
+	glBegin(GL_QUADS);
+	glColor3f(Globals::cube.getRed(), Globals::cube.getGreen(), Globals::cube.getBlue());		// This makes the cube green; the parameters are for red, green and blue. 
+	// To change the color of the other faces you will need to repeat this call before each face is drawn.
+	// Draw front face:
+	glNormal3f(0.0, 0.0, 1.0);
+	glVertex3f(-5.0, 5.0, 5.0);
+	glVertex3f(5.0, 5.0, 5.0);
+	glVertex3f(5.0, -5.0, 5.0);
+	glVertex3f(-5.0, -5.0, 5.0);
+
+	// Draw left side:
+	glNormal3f(-1.0, 0.0, 0.0);
+	glVertex3f(-5.0, 5.0, 5.0);
+	glVertex3f(-5.0, 5.0, -5.0);
+	glVertex3f(-5.0, -5.0, -5.0);
+	glVertex3f(-5.0, -5.0, 5.0);
+
+	// Draw right side:
+	glNormal3f(1.0, 0.0, 0.0);
+	glVertex3f(5.0, 5.0, 5.0);
+	glVertex3f(5.0, 5.0, -5.0);
+	glVertex3f(5.0, -5.0, -5.0);
+	glVertex3f(5.0, -5.0, 5.0);
+
+	// Draw back face:
+	glNormal3f(0.0, 0.0, -1.0);
+	glVertex3f(-5.0, 5.0, -5.0);
+	glVertex3f(5.0, 5.0, -5.0);
+	glVertex3f(5.0, -5.0, -5.0);
+	glVertex3f(-5.0, -5.0, -5.0);
+
+	// Draw top side:
+	glNormal3f(0.0, 1.0, 0.0);
+	glVertex3f(-5.0, 5.0, 5.0);
+	glVertex3f(5.0, 5.0, 5.0);
+	glVertex3f(5.0, 5.0, -5.0);
+	glVertex3f(-5.0, 5.0, -5.0);
+
+	// Draw bottom side:
+	glNormal3f(0.0, -1.0, 0.0);
+	glVertex3f(-5.0, -5.0, -5.0);
+	glVertex3f(5.0, -5.0, -5.0);
+	glVertex3f(5.0, -5.0, 5.0);
+	glVertex3f(-5.0, -5.0, 5.0);
+	glEnd();
+
+	glFlush();
+	glutSwapBuffers();
+}
+
+void Window::displaySphere() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
+	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
+
+	// Tell OpenGL what ModelView matrix to use:
+	Matrix4 glmatrix;
+	glmatrix = Globals::sphere.getMatrix();
+	glmatrix.transpose();
+	glLoadMatrixd(glmatrix.getPointer());
+
+	// Draw all six faces of the cube:
+	glBegin(GL_QUADS);
+		glColor3f(Globals::sphere.getRed(), Globals::sphere.getGreen(), Globals::sphere.getBlue());	// This makes the sphere red
+		// To change the color of the other faces you will need to repeat this call before each face is drawn.
+		glutWireSphere(Globals::sphere.getRadius(), 25.0, 25.0);
+	glEnd();
+
+	glFlush();
+	glutSwapBuffers();
 }

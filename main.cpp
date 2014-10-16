@@ -6,6 +6,7 @@
 
 #include "Window.h"
 #include "Cube.h"
+#include "Sphere.h"
 #include "Matrix4.h"
 #include "main.h"
 #include "InputHandler.h"
@@ -14,6 +15,7 @@ using namespace std;
 
 namespace Globals {
 	Cube cube;
+	Sphere sphere;
 };
 
 int main(int argc, char *argv[]) {
@@ -58,6 +60,9 @@ int main(int argc, char *argv[]) {
     
   // Initialize cube matrix:
   Globals::cube.getMatrix().identity();
+
+  // Initialize sphere matrix
+  Globals::sphere.getMatrix().identity();
   
   // Print position
   Globals::cube.getMatrix().print("Initial Matrix: ");

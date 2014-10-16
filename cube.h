@@ -9,6 +9,7 @@ class Cube
     Matrix4 model2world;            // model matrix (transforms model coordinates to world coordinates)
     double angle;                   // rotation angle [degrees]
 	double spinAngle;				// spin angle
+	bool visible;
 
 	struct COLOR {
 		float red;
@@ -39,6 +40,9 @@ class Cube
 	float getBlue();
 
 	void setColor(float, float, float);
+
+	bool isVisible();
+	void setVisible(bool);
 };
 
 #endif

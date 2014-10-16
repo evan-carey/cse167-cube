@@ -2,7 +2,13 @@
 #define _INPUTHANDLER_H_
 
 #include "cube.h"
-namespace Globals { extern Cube cube; };
+#include "Sphere.h"
+#include <ostream>
+
+namespace Globals { 
+	extern Cube cube; 
+	extern Sphere sphere;
+};
 
 class InputHandler {
 public:

@@ -82,8 +82,6 @@ Matrix4* Matrix4::multiply(Matrix4& m2) {
 					n[3][0], n[3][1], n[3][2], n[3][3]);
 }
 
-
-
 Vector4 Matrix4::operator*(const Vector4& v) {	
 
 	double x = m[0][0] * v.getX() + m[0][1] * v.getY() + m[0][2] * v.getZ() + m[0][3] * v.getW();
@@ -93,6 +91,10 @@ Vector4 Matrix4::operator*(const Vector4& v) {
 
 	return Vector4(x, y, z, w);
 }
+
+/**
+ * Getters & Setters
+ */
 
 // return pointer to matrix elements
 double* Matrix4::getPointer()
@@ -189,6 +191,8 @@ void Matrix4::makeRotateZ(double angle) {
 	*this *= rm;
 }
 
+// Creates a rotation matrix which orbits around the z axis of OpenGL's window.
+// Angle is expected in degrees.
 void Matrix4::makeOrbitZ(double angle) {
 	angle = angle / 180.0 * M_PI;
 
@@ -205,6 +209,7 @@ void Matrix4::makeOrbitZ(double angle) {
 	}
 }
 
+// Creates a rotation matrix which rotates arount an arbitrary axis, given as a 3D vector
 void Matrix4::makeRotate(double angle, const Vector3& axis) {
 	Vector3 a;
 	double ax = axis.getX();
@@ -218,13 +223,23 @@ void Matrix4::makeRotate(double angle, const Vector3& axis) {
 	double s = sin(angle);
 
 	// rotation matrix
+/*
 	m[0][0] = c + ax*ax*(1 - c);	m[0][1] = ax*ay*(1 - c) - az*s;	m[0][2] = ax*az*(1 - c) + ay*s;	m[0][3] = 0.0;
 	m[1][0] = ay*ax*(1 - c) + az*s;	m[1][1] = c + ax*ax*(1 - c);	m[1][2] = ay*az*(1 - c) - ax*s;	m[1][3] = 0.0;
 	m[2][0] = az*ax*(1 - c) + ay*s;	m[2][1] = az*ay*(1 - c) + ax*s;	m[2][2] = c + az*az*(1 - c);	m[2][3] = 0.0;
 	m[3][0] = 0.0;					m[3][1] = 0.0;					m[3][2] = 0.0;					m[3][3] = 1.0;
+*/
 
+	Matrix4 rm = Matrix4(c + ax*ax*(1 - c),		ax*ay*(1 - c) - az*s,	ax*az*(1 - c) + ay*s,	0.0,
+						ay*ax*(1 - c) + az*s,	c + ax*ax*(1 - c),		ay*az*(1 - c) - ax*s,	0.0,
+						az*ax*(1 - c) + ay*s,	az*ay*(1 - c) + ax*s,	c + az*az*(1 - c),		0.0,
+						0.0,					0.0,					0.0,					1.0);
+
+	*this *= rm;
 }
 
+// Scales the matrix.
+// Values < 1.0 scale the matrix down, > 1.0 scale it up.
 void Matrix4::makeScale(double sx, double sy, double sz) {
 	
 	Matrix4 sm = Matrix4(sx, 0.0, 0.0, 0.0, 
@@ -235,6 +250,7 @@ void Matrix4::makeScale(double sx, double sy, double sz) {
 	*this *= sm;
 }
 
+// Creates a translation matrix
 void Matrix4::makeTranslate(double tx, double ty, double tz) {
 	
 	Matrix4 tm(1.0, 0.0, 0.0, tx, 

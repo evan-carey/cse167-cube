@@ -6,6 +6,7 @@ using namespace std;
 Cube::Cube(){
   angle = 0.0;
   spinAngle = 1.0;
+  visible = true;
 
   color = { 0.0, 1.0, 0.0 };
 }
@@ -63,4 +64,12 @@ void Cube::setColor(float r, float g, float b) {
 	this->color.red = r;
 	this->color.green = g;
 	this->color.blue = b;
+}
+
+bool Cube::isVisible() {
+	return visible;
+}
+
+void Cube::setVisible(bool v) {
+	visible = v;
 }

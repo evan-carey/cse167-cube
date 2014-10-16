@@ -24,10 +24,16 @@ public:
 	void set(double x0, double y0, double z0, double w0);
 	double get(int index) const;
 
+	void setX(double x) { this->x = x; }
+	void setY(double y) { this->y = y; }
+	void setZ(double z) { this->z = z; }
+	void setW(double w) { this->w = w; }
+
 	double getX() const { return x; }
 	double getY() const { return y; }
 	double getZ() const { return z; }
 	double getW() const { return w; }
+
 
 	double length();
 
