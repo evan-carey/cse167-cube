@@ -3,7 +3,7 @@
 
 Sphere::Sphere() {
 	radius = 2.5;
-	velocity = Vector4(0.2, 0.2, 0.2, 1.0);
+	velocity = Vector4(randVelocity(), 1.0, randVelocity(), 1.0);
 	visible = false;
 	color = { 1.0, 0.0, 0.0 };
 	spinAngle = 1.0;
@@ -98,37 +98,44 @@ void Sphere::move() {
 
 void Sphere::checkCollisions() {
 	// X - check right wall
-	if (model2world.get(0, 3) > 10.0) {
-		velocity.setX(-1.0 * velocity.getX());
+	if (model2world.get(0, 3) > 9.0) {
+		if (velocity.getX() < 0.1) velocity.setX(0.0);
+		else velocity.setX(-0.95 * velocity.getX());
 	}
 	// X - check left wall
-	if (model2world.get(0, 3) < -10.0) {
-		velocity.setX(-1.0 * velocity.getX());
+	if (model2world.get(0, 3) < -9.0) {
+		if (velocity.getX() > -0.1) velocity.setX(0.0);
+		else velocity.setX(-0.95 * velocity.getX());
 	}
 	// Y - check upper wall
 	if (model2world.get(1, 3) > 8.0) {
 		velocity.setY(-1.0 * velocity.getY());
 	}
 	// Y - check lower wall
-	if (model2world.get(1, 3) < -8.0) {
-		velocity.setY(-1.0 * velocity.getY());
+	if (model2world.get(1, 3) < -7.0) {
+		if (velocity.getY() > 0.1 || velocity.getY() < -0.1)
+			velocity.setY(-0.95 * velocity.getY());
+		else
+			velocity.setY(0.0);
 		gravity = 0.0;
 	} else {
 		gravity = -0.07;
 	}
 	// Z - check front wall
 	if (model2world.get(2, 3) > 6.0) {
-		velocity.setZ(-1.0 * velocity.getZ());
+		if (velocity.getZ() < 0.1) velocity.setZ(0.0);
+		else velocity.setZ(-0.95 * velocity.getZ());
 	}
 	// Z - check back wall
 	if (model2world.get(2, 3) < -20.0) {
-		velocity.setZ(-1.0 * velocity.getZ());
+		if (velocity.getZ() > -0.1) velocity.setZ(0.0);
+		else velocity.setZ(-0.95 * velocity.getZ());
 	}
 }
 
 void Sphere::resetSphere() {
 	// radius = 2.5;
-	velocity.set(0.2, 0.2, 0.2, 1.0);
+	velocity.set(randVelocity(), 1.0, randVelocity(), 1.0);
 	// velocity = Vector4(0.2, 0.2, 0.2, 1.0);
 	//visible = false;
 	//color = { 1.0, 0.0, 0.0 };
@@ -140,4 +147,12 @@ void Sphere::applyGravity(double g) {
 	//Vector4 grav = Vector4(0.0, g, 0.0, 1.0);
 	//if (velocity.getY() != 0.0)
 		velocity.setY(velocity.getY() + g);
+}
+
+double Sphere::randVelocity() {
+	int direction = rand() % 2 ? 1 : -1;
+	double magnitude = ((double) rand() / RAND_MAX) * 0.5;
+	printf("%f\n", magnitude*direction);
+	return magnitude * direction;
+	
 }

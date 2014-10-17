@@ -127,7 +127,7 @@ void Window::displaySphere() {
 	glBegin(GL_QUADS);
 		glColor3f(Globals::sphere.getRed(), Globals::sphere.getGreen(), Globals::sphere.getBlue());	// This makes the sphere red
 		// To change the color of the other faces you will need to repeat this call before each face is drawn.
-		glutWireSphere(Globals::sphere.getRadius(), 25.0, 25.0);
+		glutSolidSphere(Globals::sphere.getRadius(), 25.0, 25.0);
 	glEnd();
 
 	glFlush();

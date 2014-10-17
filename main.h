@@ -3,6 +3,7 @@
 
 #include "Cube.h"
 #include "Sphere.h"
+#include <time.h>
 
 namespace Globals {
     extern Cube cube;

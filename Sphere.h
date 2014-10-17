@@ -57,6 +57,8 @@ public:
 	void resetSphere();
 
 	void applyGravity(double);
+
+	double randVelocity();
 };
 
 #endif
