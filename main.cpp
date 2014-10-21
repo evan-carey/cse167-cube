@@ -16,6 +16,7 @@ using namespace std;
 namespace Globals {
 	Cube cube;
 	Sphere sphere;
+	Camera camera;
 };
 
 int main(int argc, char *argv[]) {
@@ -59,6 +60,7 @@ int main(int argc, char *argv[]) {
 
   // Initialize input handler
   glutKeyboardFunc(InputHandler::processNormalKeys);
+  glutSpecialFunc(InputHandler::processSpecialKeys);
     
   // Initialize cube matrix:
   Globals::cube.getMatrix().identity();

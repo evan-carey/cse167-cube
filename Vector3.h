@@ -8,11 +8,11 @@ using namespace std;
 
 class Vector3 {
 protected:
-	double x, y, z; // (x, y, z) position of the vector
+	double vec[3]; // (x, y, z) position of the vector
 
 public:
 	/* Constructor */
-	Vector3(double x = 0.0, double y = 0.0, double z = 0.0) : x(x), y(y), z(z) {}
+	Vector3(double x = 0.0, double y = 0.0, double z = 0.0);
 
 	/* Destructor*/
 	virtual ~Vector3() {}
@@ -24,10 +24,11 @@ public:
 
 	void set(double x0, double y0, double z0);
 	double get(int index);
+	double get(char c);
 
-	double getX() const { return x; }
-	double getY() const { return y; }
-	double getZ() const { return z; }
+	double getX() const { return vec[0]; }
+	double getY() const { return vec[1]; }
+	double getZ() const { return vec[2]; }
 
 	void negate(); // negation
 	void scale(double s); // scale (multiplication with scalar value)

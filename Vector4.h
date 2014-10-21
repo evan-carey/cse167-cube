@@ -7,11 +7,11 @@ using namespace std;
 
 class Vector4 {
 protected:
-	double x, y, z, w;
+	double vec[4];
 	
 public:
 	/* Constructor */
-	Vector4(double x = 0.0, double y = 0.0, double z = 0.0, double w = 1.0) : x(x), y(y), z(z), w(w) {}
+	Vector4(double x = 0.0, double y = 0.0, double z = 0.0, double w = 1.0);
 	
 	/* Destructor */
 	virtual ~Vector4() {}
@@ -24,15 +24,15 @@ public:
 	void set(double x0, double y0, double z0, double w0);
 	double get(int index) const;
 
-	void setX(double x) { this->x = x; }
-	void setY(double y) { this->y = y; }
-	void setZ(double z) { this->z = z; }
-	void setW(double w) { this->w = w; }
+	void setX(double x) { this->vec[0] = x; }
+	void setY(double y) { this->vec[1] = y; }
+	void setZ(double z) { this->vec[2] = z; }
+	void setW(double w) { this->vec[3] = w; }
 
-	double getX() const { return x; }
-	double getY() const { return y; }
-	double getZ() const { return z; }
-	double getW() const { return w; }
+	double getX() const { return vec[0]; }
+	double getY() const { return vec[1]; }
+	double getZ() const { return vec[2]; }
+	double getW() const { return vec[3]; }
 
 
 	double length();

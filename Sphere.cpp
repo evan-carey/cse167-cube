@@ -93,6 +93,8 @@ void Sphere::move() {
 	model2world.makeTranslate(velocity.getX(), velocity.getY(), velocity.getZ());
 	
 	checkCollisions();
+	velocity.setX(velocity.getX()*0.999);
+	velocity.setZ(velocity.getZ()*0.999);
 	applyGravity(gravity);
 }
 

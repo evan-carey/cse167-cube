@@ -11,6 +11,7 @@ class Window	  // OpenGL output window related routines
     static void displayCallback(void);
 	static void displayCube(void);
 	static void displaySphere(void);
+	static void displayHouse(void);
 };
 
 #endif

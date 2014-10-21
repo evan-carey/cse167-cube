@@ -146,3 +146,19 @@ void InputHandler::processNormalKeys(unsigned char key, int x, int y) {
 		
 	}
 }
+
+void InputHandler::processSpecialKeys(int key, int x, int y) {
+	switch (key) {
+	case GLUT_KEY_F1:
+		Globals::cube.setVisible(true);
+		break;
+	case GLUT_KEY_F2:
+		Globals::cube.setVisible(false);
+		break;
+	case GLUT_KEY_F3:
+		Globals::cube.setVisible(false);
+		break;
+	default:
+		break;
+	}
+}
