@@ -79,7 +79,7 @@ Matrix4* Matrix4::multiply(Matrix4& m2) {
 	return &Matrix4(n[0][0], n[0][1], n[0][2], n[0][3],
 					n[1][0], n[1][1], n[1][2], n[1][3],
 					n[2][0], n[2][1], n[2][2], n[2][3],
-					n[3][0], n[3][1], n[3][2], n[3][3]);
+					n[3][0], n[3][1], n[3][2], 1.0);
 }
 
 Vector4 Matrix4::operator*(const Vector4& v) {	

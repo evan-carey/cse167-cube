@@ -6,6 +6,14 @@ Vector3::Vector3(double x, double y, double z) {
 	set(x, y, z);
 }
 
+Vector3& Vector3::operator= (const Vector3 &v) {
+	vec[0] = v.getX();
+	vec[1] = v.getY();
+	vec[2] = v.getZ();
+
+	return (*this);
+}
+
 Vector3 Vector3::operator+(const Vector3& other) {
 	return Vector3(this->getX() + other.getX(), this->getY() + other.getY(), this->getZ() + other.getZ());
 }

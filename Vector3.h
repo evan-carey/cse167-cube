@@ -18,6 +18,7 @@ public:
 	virtual ~Vector3() {}
 
 	/* Overloaded Operators */
+	Vector3& operator=(const Vector3&);
 	Vector3 operator+(const Vector3&); // overload operator '+' for addition
 	Vector3 operator-(const Vector3&); // overload operator '-' for subtraction
 	double operator[](const int i);

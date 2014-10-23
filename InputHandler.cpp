@@ -81,8 +81,8 @@ void InputHandler::processNormalKeys(unsigned char key, int x, int y) {
 		case 'b':
 		case 'B':
 			// Switch between cube and sphere
-			Globals::cube.setVisible(!Globals::cube.isVisible());
-			Globals::sphere.setVisible(!Globals::sphere.isVisible());
+			Globals::cube.setVisible(false);
+			Globals::sphere.setVisible(true);
 			break;
 		case 27: 
 			// ESC -> quit
@@ -125,8 +125,8 @@ void InputHandler::processNormalKeys(unsigned char key, int x, int y) {
 		case 'b':
 		case 'B':
 			// Switch between cube and sphere
-			Globals::cube.setVisible(!Globals::cube.isVisible());
-			Globals::sphere.setVisible(!Globals::sphere.isVisible());
+			Globals::cube.setVisible(true);
+			Globals::sphere.setVisible(false);
 			break;
 		case 27:
 			// ESC -> quit
@@ -151,12 +151,19 @@ void InputHandler::processSpecialKeys(int key, int x, int y) {
 	switch (key) {
 	case GLUT_KEY_F1:
 		Globals::cube.setVisible(true);
+		Globals::house.setVisible(false);
 		break;
 	case GLUT_KEY_F2:
 		Globals::cube.setVisible(false);
+		Globals::sphere.setVisible(false);
+		Globals::house.setVisible(true);
+		Globals::camera.set(Vector3(0, 10, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
 		break;
 	case GLUT_KEY_F3:
 		Globals::cube.setVisible(false);
+		Globals::sphere.setVisible(false);
+		Globals::house.setVisible(true);
+		Globals::camera.set(Vector3(-15, 5, 10), Vector3(-5, 0, 0), Vector3(0, 1, 0.5));
 		break;
 	default:
 		break;

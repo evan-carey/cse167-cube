@@ -3,12 +3,16 @@
 
 #include "cube.h"
 #include "Sphere.h"
+#include "Camera.h"
+#include "House.h"
 #include <ostream>
 #include <GL/glut.h>
 
 namespace Globals { 
 	extern Cube cube; 
 	extern Sphere sphere;
+	extern Camera camera;
+	extern House house;
 };
 
 class InputHandler {

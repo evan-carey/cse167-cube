@@ -8,6 +8,7 @@
 #include "Cube.h"
 #include "Sphere.h"
 #include "Matrix4.h"
+#include "House.h"
 #include "main.h"
 #include "InputHandler.h"
 
@@ -17,6 +18,7 @@ namespace Globals {
 	Cube cube;
 	Sphere sphere;
 	Camera camera;
+	House house;
 };
 
 int main(int argc, char *argv[]) {
@@ -67,6 +69,8 @@ int main(int argc, char *argv[]) {
 
   // Initialize sphere matrix
   Globals::sphere.getMatrix().identity();
+
+  
   
   // Print position
   Globals::cube.getMatrix().print("Initial Matrix: ");
