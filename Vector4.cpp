@@ -10,11 +10,11 @@ Vector4::Vector4(double x, double y, double z, double w) {
 }
 
 Vector4 Vector4::operator+(const Vector4& other) {
-	return Vector4(this->getX() + other.getX(), this->getY() + other.getY(), this->getZ() + other.getZ(), this->getW() + other.getW());
+	return Vector4(this->getX() + other.getX(), this->getY() + other.getY(), this->getZ() + other.getZ(), /*this->getW() + other.getW()*/1.0);
 }
 
 Vector4 Vector4::operator-(const Vector4& other) {
-	return Vector4(this->getX() - other.getX(), this->getY() - other.getY(), this->getZ() - other.getZ(), this->getW() - other.getW());
+	return Vector4(this->getX() - other.getX(), this->getY() - other.getY(), this->getZ() - other.getZ(), /*this->getW() - other.getW()*/1.0);
 }
 
 double Vector4::operator[](const int i) {

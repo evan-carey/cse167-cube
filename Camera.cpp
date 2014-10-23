@@ -2,10 +2,8 @@
 
 
 Camera::Camera() {
-	e.set(0, 0, 0);
-	d.set(0, 0, 0);
-	up.set(0, 1, 0);
-	c.identity();
+	set(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 1, 0));
+	c.print();
 }
 
 Camera::Camera(Vector3& e, Vector3& d, Vector3& up) {
@@ -14,7 +12,7 @@ Camera::Camera(Vector3& e, Vector3& d, Vector3& up) {
 	this->up = up;
 
 	c = initCamera();
-	c.print();
+	
 	
 }
 
@@ -62,12 +60,11 @@ Matrix4 Camera::initCamera() {
 			  x.get(2), y.get(2), z.get(2), e.get(2),
 			  0.0, 0.0, 0.0, 1.0);
 
-	Matrix4 *cinv;
+	Matrix4 cinv;
 	Matrix4 rinv(m.get(0,0), m.get(0,1), m.get(0,2), 0.0, 
 				 m.get(1,0), m.get(1,1), m.get(1,2), 0.0, 
 				 m.get(2,0), m.get(2,1), m.get(2,2), 0.0, 
 				 0.0, 0.0, 0.0, 1.0);
-
 	rinv.transpose();
 
 	Matrix4 tinv(1.0, 0.0, 0.0, -e.get(0), 
@@ -75,7 +72,7 @@ Matrix4 Camera::initCamera() {
 				0.0, 0.0, 1.0, -e.get(2), 
 				0.0, 0.0, 0.0, 1.0);
 
-	cinv = tinv.multiply(rinv);
+	cinv = tinv * rinv;
 
 	/*
 	m[0][0] = icam.get(0, 0);  m[0][1] = icam.get(0, 1);  m[0][2] = icam.get(0, 2);  m[0][3] = icam.get(0, 3);
@@ -84,5 +81,5 @@ Matrix4 Camera::initCamera() {
 	m[3][0] = icam.get(3, 0);  m[3][1] = icam.get(3, 1);  m[3][2] = icam.get(3, 2);  m[3][3] = icam.get(3, 3);
 	*/
 
-	return *cinv;
+	return cinv;
 }

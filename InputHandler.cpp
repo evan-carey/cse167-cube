@@ -143,7 +143,22 @@ void InputHandler::processNormalKeys(unsigned char key, int x, int y) {
 			std::cout << "Unrecognized command. Press \'h\' for help." << endl;
 			return;
 		}
-		
+	}
+
+	// Bunny commands
+	else if (Globals::bunny.isVisible()) {
+		switch (key) {
+		case 's':
+			// scale cube down (about its center, not the center of the screen)
+			Globals::bunny.getMatrix().makeScale(.9, .9, .9);
+			break;
+		case 'S':
+			// scale cube up (about its center, not the center of the screen)
+			Globals::bunny.getMatrix().makeScale(1.1, 1.1, 1.1);
+			break;
+		default:
+			return;
+		}
 	}
 }
 
@@ -152,18 +167,44 @@ void InputHandler::processSpecialKeys(int key, int x, int y) {
 	case GLUT_KEY_F1:
 		Globals::cube.setVisible(true);
 		Globals::house.setVisible(false);
+		Globals::bunny.setVisible(false);
+		Globals::dragon.setVisible(false);
 		break;
 	case GLUT_KEY_F2:
+		Globals::camera.set(Vector3(0, 10, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
 		Globals::cube.setVisible(false);
 		Globals::sphere.setVisible(false);
 		Globals::house.setVisible(true);
-		Globals::camera.set(Vector3(0, 10, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+		Globals::bunny.setVisible(false);
+		Globals::dragon.setVisible(false);
+		
 		break;
 	case GLUT_KEY_F3:
+		Globals::camera.set(Vector3(-15, 5, 10), Vector3(-5, 0, 0), Vector3(0, 1, 0.5));
 		Globals::cube.setVisible(false);
 		Globals::sphere.setVisible(false);
 		Globals::house.setVisible(true);
-		Globals::camera.set(Vector3(-15, 5, 10), Vector3(-5, 0, 0), Vector3(0, 1, 0.5));
+		Globals::bunny.setVisible(false);
+		Globals::dragon.setVisible(false);
+		
+		break;
+	case GLUT_KEY_F4:
+		Globals::camera.reset();
+		Globals::cube.setVisible(false);
+		Globals::sphere.setVisible(false);
+		Globals::house.setVisible(false);
+		Globals::bunny.setVisible(true);
+		Globals::dragon.setVisible(false);
+		Globals::camera.getCameraMatrix().print();
+		break;
+	case GLUT_KEY_F5:
+		Globals::camera.reset();
+		Globals::cube.setVisible(false);
+		Globals::sphere.setVisible(false);
+		Globals::house.setVisible(false);
+		Globals::bunny.setVisible(false);
+		Globals::dragon.setVisible(true);
+		Globals::camera.getCameraMatrix().print();
 		break;
 	default:
 		break;

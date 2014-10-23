@@ -5,6 +5,7 @@
 #include "Sphere.h"
 #include "Camera.h"
 #include "House.h"
+#include "PointCloud.h"
 #include <time.h>
 
 namespace Globals {
@@ -12,6 +13,8 @@ namespace Globals {
 	extern Sphere sphere;
 	extern Camera camera;
 	extern House house;
+	extern PointCloud bunny;
+	extern PointCloud dragon;
 };
 
 #endif

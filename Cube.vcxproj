@@ -82,28 +82,37 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="PointCloud.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="cube.h" />
     <ClInclude Include="House.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Matrix4.h" />
+    <ClInclude Include="ObjReader.h" />
+    <ClInclude Include="Point3D.h" />
     <ClInclude Include="Sphere.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PointCloud.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="cube.cpp" />
     <ClCompile Include="House.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4.cpp" />
+    <ClCompile Include="ObjReader.cpp" />
     <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="Vector4.cpp" />
     <ClCompile Include="window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\bunny.xyz" />
+    <None Include="res\dragon.xyz" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -47,12 +47,18 @@ void Window::reshapeCallback(int w, int h)
 void Window::displayCallback() {
 	if (Globals::cube.isVisible()) {
 		displayCube();
-	} 
+	}
 	if (Globals::sphere.isVisible()) {
 		displaySphere();
-	} 
+	}
 	if (Globals::house.isVisible()) {
 		displayHouse();
+	}
+	if (Globals::bunny.isVisible()) {
+		displayBunny();
+	}
+	if (Globals::dragon.isVisible()) {
+		displayDragon();
 	}
 }
 
@@ -65,6 +71,7 @@ void Window::displayCube() {
 	glmatrix = Globals::cube.getMatrix();
 	glmatrix.transpose();
 	glLoadMatrixd(glmatrix.getPointer());
+	
 
 	// Draw all six faces of the cube:
 	glBegin(GL_QUADS);
@@ -146,10 +153,12 @@ void Window::displayHouse() {
 
 
 	// Tell OpenGL what ModelView matrix to use:
-	Matrix4 glmatrix;
+	/*Matrix4 glmatrix;
 	glmatrix = Globals::camera.getCameraMatrix();
 	glmatrix.transpose();
-	glLoadMatrixd(glmatrix.getPointer());
+	glLoadMatrixd(glmatrix.getPointer());*/
+
+	glLoadMatrixd(Globals::camera.getGLMatrix());
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 
@@ -159,6 +168,53 @@ void Window::displayHouse() {
 	glEnd();
 
 
+	glFlush();
+	glutSwapBuffers();
+}
+
+void Window::displayBunny() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
+	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
+
+	Matrix4 glmatrix;
+	glmatrix = Globals::bunny.getMatrix();
+	glmatrix.transpose();
+	glLoadMatrixd(glmatrix.getPointer());
+
+	glPointSize(5.0);
+
+	glBegin(GL_POINTS);
+		for (int i = 0; i < Globals::bunny.length(); ++i) {
+			glColor3f(1.0, 0.0, 0.0);
+			glNormal3d(Globals::bunny.getNorm(i).getx(), Globals::bunny.getNorm(i).gety(), Globals::bunny.getNorm(i).getz());
+
+			glVertex3d(Globals::bunny.getPos(i).getx(), Globals::bunny.getPos(i).gety(), Globals::bunny.getPos(i).getz());
+			
+		}
+	glEnd();
+	glFlush();
+	glutSwapBuffers();
+}
+
+void Window::displayDragon() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
+	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
+	// Tell OpenGL what ModelView matrix to use:
+
+	Matrix4 glmatrix;
+	glmatrix = Globals::camera.getCameraMatrix();
+	glmatrix.transpose();
+	glLoadMatrixd(glmatrix.getPointer());
+
+	glPointSize(5.0);
+
+	glBegin(GL_POINTS);
+	for (int i = 0; i < Globals::dragon.length(); ++i) {
+		glColor3f(0.0, 1.0, 0.0);
+		glNormal3d(Globals::dragon.getNorm(i).getx(), Globals::dragon.getNorm(i).gety(), Globals::dragon.getNorm(i).getz());
+		glVertex3d(Globals::dragon.getPos(i).getx(), Globals::dragon.getPos(i).gety(), Globals::dragon.getPos(i).getz());
+	}
+	glEnd();
 	glFlush();
 	glutSwapBuffers();
 }

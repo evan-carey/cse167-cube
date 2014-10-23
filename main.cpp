@@ -19,6 +19,8 @@ namespace Globals {
 	Sphere sphere;
 	Camera camera;
 	House house;
+	PointCloud bunny;
+	PointCloud dragon;
 };
 
 int main(int argc, char *argv[]) {
@@ -69,6 +71,12 @@ int main(int argc, char *argv[]) {
 
   // Initialize sphere matrix
   Globals::sphere.getMatrix().identity();
+
+  // Initialize bunny
+  Globals::bunny.createFromFile("res/bunny.xyz");
+
+  // Initialize dragon
+  Globals::dragon.createFromFile("res/dragon.xyz");
 
   
   

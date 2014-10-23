@@ -78,9 +78,9 @@ double Vector3::dot(const Vector3& a, const Vector3& b) {
 
 Vector3 Vector3::cross(const Vector3& a, const Vector3& b) {
 
-	vec[0] = a.getY() * b.getZ() - a.getZ() * b.getY();
-	vec[1] = a.getZ() * b.getX() - a.getX() * b.getZ();
-	vec[2] = a.getX() * b.getY() - a.getY() * b.getZ();
+	vec[0] = (a.getY() * b.getZ()) - (a.getZ() * b.getY());
+	vec[1] = (a.getZ() * b.getX()) - (a.getX() * b.getZ());
+	vec[2] = (a.getX() * b.getY()) - (a.getY() * b.getX());
 
 	return Vector3(vec[0], vec[1], vec[2]);
 }

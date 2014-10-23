@@ -10,6 +10,7 @@ using namespace std;
 Matrix4::Matrix4() {
 	for (int i=0; i<4; ++i) {
 		for (int j=0; j<4; ++j) {
+			//m[i][j] = i == j ? 1.0 : 0.0;
 			m[i][j] = 0.0;
 		}
 	}
@@ -49,7 +50,7 @@ Matrix4& Matrix4::operator=(const Matrix4& m2) {
 
 Matrix4 Matrix4::operator*(const Matrix4& m2) {
 	
-	for (int i = 0; i < 4; i++) {
+	/*for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			double sum = 0.0;
 			for (int k = 0; k < 4; k++) {
@@ -58,7 +59,21 @@ Matrix4 Matrix4::operator*(const Matrix4& m2) {
 			m[i][j] = sum;
 		}
 	}
-	return *this;
+	return *this;*/
+
+	double n[4][4];
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			n[i][j] = 0.0;
+			for (int k = 0; k < 4; k++) {
+				n[i][j] += m[i][k] * m2.get(k, j);
+			}
+		}
+	}
+	return Matrix4(n[0][0], n[0][1], n[0][2], n[0][3],
+		n[1][0], n[1][1], n[1][2], n[1][3],
+		n[2][0], n[2][1], n[2][2], n[2][3],
+		n[3][0], n[3][1], n[3][2], 1.0);
 }
 
 Matrix4 Matrix4::operator*=(const Matrix4& m2) {

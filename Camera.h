@@ -37,5 +37,10 @@ public:
 
 
 	Matrix4 initCamera();
+
+	void reset() {
+		set(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 1, 0));
+		//c.identity();
+	}
 };
 

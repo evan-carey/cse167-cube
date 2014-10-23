@@ -5,6 +5,7 @@
 #include "Sphere.h"
 #include "Camera.h"
 #include "House.h"
+#include "PointCloud.h"
 #include <ostream>
 #include <GL/glut.h>
 
@@ -13,6 +14,8 @@ namespace Globals {
 	extern Sphere sphere;
 	extern Camera camera;
 	extern House house;
+	extern PointCloud bunny;
+	extern PointCloud dragon;
 };
 
 class InputHandler {
