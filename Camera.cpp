@@ -3,7 +3,6 @@
 
 Camera::Camera() {
 	set(Vector3(0, 0, 0), Vector3(0, 0, 0), Vector3(0, 1, 0));
-	c.print();
 }
 
 Camera::Camera(Vector3& e, Vector3& d, Vector3& up) {
@@ -12,8 +11,6 @@ Camera::Camera(Vector3& e, Vector3& d, Vector3& up) {
 	this->up = up;
 
 	c = initCamera();
-	
-	
 }
 
 Camera::~Camera() {
@@ -36,7 +33,7 @@ GLdouble* Camera::getGLMatrix() {
 			glm[(i*4)+j] = c.get(j, i);
 		}
 	}
-	return glm;
+	return &glm[0];
 }
 
 Matrix4 Camera::initCamera() {

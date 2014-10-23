@@ -156,6 +156,7 @@ void InputHandler::processNormalKeys(unsigned char key, int x, int y) {
 			// scale cube up (about its center, not the center of the screen)
 			Globals::bunny.getMatrix().makeScale(1.1, 1.1, 1.1);
 			break;
+		case 27: exit(0); break;
 		default:
 			return;
 		}
@@ -194,6 +195,7 @@ void InputHandler::processSpecialKeys(int key, int x, int y) {
 		Globals::sphere.setVisible(false);
 		Globals::house.setVisible(false);
 		Globals::bunny.setVisible(true);
+		Globals::bunny.calcMinMax();
 		Globals::dragon.setVisible(false);
 		Globals::camera.getCameraMatrix().print();
 		break;
@@ -204,6 +206,7 @@ void InputHandler::processSpecialKeys(int key, int x, int y) {
 		Globals::house.setVisible(false);
 		Globals::bunny.setVisible(false);
 		Globals::dragon.setVisible(true);
+		Globals::bunny.calcMinMax();
 		Globals::camera.getCameraMatrix().print();
 		break;
 	default:

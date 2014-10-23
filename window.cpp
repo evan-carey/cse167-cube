@@ -146,7 +146,7 @@ void Window::displaySphere() {
 }
 
 void Window::displayHouse() {
-	glDisable(GL_LIGHTING);
+	//glDisable(GL_LIGHTING);
 
 	
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
@@ -176,6 +176,11 @@ void Window::displayBunny() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_POINT_SMOOTH);
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
 	Matrix4 glmatrix;
 	glmatrix = Globals::bunny.getMatrix();
 	glmatrix.transpose();
@@ -184,13 +189,7 @@ void Window::displayBunny() {
 	glPointSize(5.0);
 
 	glBegin(GL_POINTS);
-		for (int i = 0; i < Globals::bunny.length(); ++i) {
-			glColor3f(1.0, 0.0, 0.0);
-			glNormal3d(Globals::bunny.getNorm(i).getx(), Globals::bunny.getNorm(i).gety(), Globals::bunny.getNorm(i).getz());
-
-			glVertex3d(Globals::bunny.getPos(i).getx(), Globals::bunny.getPos(i).gety(), Globals::bunny.getPos(i).getz());
-			
-		}
+		Globals::bunny.renderModel();
 	glEnd();
 	glFlush();
 	glutSwapBuffers();

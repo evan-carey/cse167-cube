@@ -1,6 +1,7 @@
 #pragma once
 #include "ObjReader.h"
 #include "Matrix4.h"
+#include "GL\glut.h"
 
 class PointCloud {
 protected:
@@ -11,6 +12,8 @@ protected:
 
 	Matrix4 model2world;
 	double angle;
+
+	Vector3 center;
 
 public:
 	PointCloud();
@@ -43,5 +46,13 @@ public:
 	void setAngle(double a) { angle = a; }
 
 	void normalizeNorm();
+
+	void renderModel();
+	void renderScaledModel(double);
+
+	// functions to calculate min and max points in model
+	void calcMinMax();
+
+	void translateToOrigin();
 };
 
