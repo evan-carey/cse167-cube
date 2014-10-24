@@ -161,6 +161,12 @@ void InputHandler::processNormalKeys(unsigned char key, int x, int y) {
 			return;
 		}
 	}
+	else {
+		switch (key) {
+		case 27: exit(0); break;
+		default: return;
+		}
+	}
 }
 
 void InputHandler::processSpecialKeys(int key, int x, int y) {
@@ -195,7 +201,6 @@ void InputHandler::processSpecialKeys(int key, int x, int y) {
 		Globals::sphere.setVisible(false);
 		Globals::house.setVisible(false);
 		Globals::bunny.setVisible(true);
-		Globals::bunny.calcMinMax();
 		Globals::dragon.setVisible(false);
 		Globals::camera.getCameraMatrix().print();
 		break;

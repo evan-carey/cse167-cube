@@ -15,6 +15,9 @@ PointCloud::PointCloud(char* fileName) {
 	ObjReader::readObj(fileName, pos, norm);
 	normalizeNorm();
 	model2world = Matrix4();
+	calcMinMax();
+	calcCenter();
+	translateToOrigin();
 }
 
 
@@ -31,6 +34,9 @@ void PointCloud::createFromFile(char* fileName) {
 	ObjReader::readObj(fileName, pos, norm);
 	normalizeNorm();
 	model2world = Matrix4();
+	calcMinMax();
+	calcCenter();
+	translateToOrigin();
 }
 
 int PointCloud::length() {
@@ -50,28 +56,26 @@ void PointCloud::renderModel() {
 
 		glNormal3d(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
 		glVertex3d(this->getPos(i).getx(), this->getPos(i).gety(), this->getPos(i).getz());
-		// printf("norm: ( %f, %f, %f )\n", this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
-		// printf("Pos: ( %f, %f, %f )\n", this->getPos(i).getx(), this->getPos(i).gety(), this->getPos(i).getz());
+		
 	}
 }
 
 void PointCloud::renderScaledModel(double s) {
 	for (int i = 0; i < this->length(); ++i) {
-		//glColor3f((double)rand() / (double)RAND_MAX, (double)rand() / (double)RAND_MAX, (double)rand() / (double)RAND_MAX);
-		glColor3f(0.0, 0.5, 0.7);
-		glNormal3d(this->getNorm(i).getx()*s, this->getNorm(i).gety()*s, this->getNorm(i).getz()*s);
+
+		glColor3f(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
+
+		glNormal3d(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
 		glVertex3d(this->getPos(i).getx()*s, this->getPos(i).gety()*s, this->getPos(i).getz()*s);
-		// printf("norm: ( %f, %f, %f )\n", this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
-		// printf("Pos: ( %f, %f, %f )\n", this->getPos(i).getx(), this->getPos(i).gety(), this->getPos(i).getz());
+		
+		translateToOrigin(s);
 	}
 }
 
 void PointCloud::calcMinMax() {
 	// Minimums
-	double minX, minY, minZ;
 	minX = minY = minZ = numeric_limits<double>::max();
 	// Maximums
-	double maxX, maxY, maxZ;
 	maxX = maxY = maxZ = numeric_limits<double>::min();
 
 	
@@ -89,16 +93,27 @@ void PointCloud::calcMinMax() {
 		if (it->getz() > maxZ) maxZ = it->getz();
 	}
 
-	center = Vector3((minX+maxX)/2.0, (minY+maxY)/2.0, (minZ+maxZ)/2.0);
+	//translateToOrigin();
+}
 
-	printf("Min X: %f \tMax X: %f\n", minX, maxX);
-	printf("Min Y: %f \tMax Y: %f\n", minY, maxY);
-	printf("Min Z: %f \tMax Z: %f\n", minZ, maxZ);
-
-	translateToOrigin();
+void PointCloud::calcCenter() {
+	center = Vector3((minX + maxX) / 2.0, (minY + maxY) / 2.0, (minZ + maxZ) / 2.0);
 }
 
 void PointCloud::translateToOrigin() {
+	if (center.getX() == 0.0 && center.getY() == 0.0 && center.getZ() == 0.0) return;
 	model2world.makeTranslate(-center.getX(), -center.getY(), -center.getZ());
-	model2world.print("Model to World: ");
+	setCenter(0, 0, 0);
+}
+
+void PointCloud::translateToOrigin(double s) {
+	if (center.getX() == 0.0 && center.getY() == 0.0 && center.getZ() == 0.0) return;
+	model2world.makeTranslate(-s * center.getX(), -s * center.getY(), -s * center.getZ());
+	setCenter(0, 0, 0);
+}
+
+void PointCloud::printMinMax() {
+	printf("Min X: %f \tMax X: %f\n", minX, maxX);
+	printf("Min Y: %f \tMax Y: %f\n", minY, maxY);
+	printf("Min Z: %f \tMax Z: %f\n", minZ, maxZ);
 }

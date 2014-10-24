@@ -154,7 +154,6 @@ void Sphere::applyGravity(double g) {
 double Sphere::randVelocity() {
 	int direction = rand() % 2 ? 1 : -1;
 	double magnitude = ((double) rand() / RAND_MAX) * 0.5;
-	printf("%f\n", magnitude*direction);
 	return magnitude * direction;
 	
 }

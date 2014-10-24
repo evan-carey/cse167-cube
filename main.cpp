@@ -74,14 +74,17 @@ int main(int argc, char *argv[]) {
 
   // Initialize bunny
   Globals::bunny.createFromFile("res/bunny.xyz");
+  printf("Bunny MinMax Coords:\n");
+  Globals::bunny.calcMinMax();
 
   // Initialize dragon
   Globals::dragon.createFromFile("res/dragon.xyz");
-
+  printf("Dragon MinMax Coords:\n");
+  Globals::dragon.calcMinMax();
   
   
   // Print position
-  Globals::cube.getMatrix().print("Initial Matrix: ");
+  //Globals::cube.getMatrix().print("Initial Matrix: ");
     
   glutMainLoop();
   return 0;

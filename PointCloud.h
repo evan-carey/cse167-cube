@@ -13,6 +13,8 @@ protected:
 	Matrix4 model2world;
 	double angle;
 
+	double minX, minY, minZ;
+	double maxX, maxY, maxZ;
 	Vector3 center;
 
 public:
@@ -24,13 +26,13 @@ public:
 
 	int length(); // return length of vectors or -1 if they differ (indicating an error)
 
-	Point3D getNorm(int index) {
+	Point3D getNorm(unsigned int index) {
 		if (index < 0 || index > norm.size()) return NULL;
 		return norm.at(index);
 		//return norm[index];
 	}
 
-	Point3D getPos(int index) {
+	Point3D getPos(unsigned int index) {
 		if (index < 0 || index > pos.size()) return NULL;
 		return pos.at(index);
 		//return pos[index];
@@ -50,9 +52,15 @@ public:
 	void renderModel();
 	void renderScaledModel(double);
 
+	Vector3& getCenter() { return center; }
+	void setCenter(double x, double y, double z) { center.set(x, y, z); }
+
 	// functions to calculate min and max points in model
 	void calcMinMax();
-
+	void calcCenter();
 	void translateToOrigin();
+	void translateToOrigin(double);
+
+	void printMinMax();
 };
 

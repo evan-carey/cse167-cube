@@ -25,7 +25,6 @@ void Camera::set(Vector3& e, Vector3& d, Vector3& up) {
 }
 
 GLdouble* Camera::getGLMatrix() {
-	//c = initCamera();
 
 	GLdouble glm[16];
 	for (int i = 0; i < 4; ++i) {
@@ -63,20 +62,14 @@ Matrix4 Camera::initCamera() {
 				 m.get(2,0), m.get(2,1), m.get(2,2), 0.0, 
 				 0.0, 0.0, 0.0, 1.0);
 	rinv.transpose();
+	//rinv.print("RINV:");
 
 	Matrix4 tinv(1.0, 0.0, 0.0, -e.get(0), 
 				0.0, 1.0, 0.0, -e.get(1), 
 				0.0, 0.0, 1.0, -e.get(2), 
 				0.0, 0.0, 0.0, 1.0);
 
-	cinv = tinv * rinv;
-
-	/*
-	m[0][0] = icam.get(0, 0);  m[0][1] = icam.get(0, 1);  m[0][2] = icam.get(0, 2);  m[0][3] = icam.get(0, 3);
-	m[1][0] = icam.get(1, 0);  m[1][1] = icam.get(1, 1);  m[1][2] = icam.get(1, 2);  m[1][3] = icam.get(1, 3);
-	m[2][0] = icam.get(2, 0);  m[2][1] = icam.get(2, 1);  m[2][2] = icam.get(2, 2);  m[2][3] = icam.get(2, 3);
-	m[3][0] = icam.get(3, 0);  m[3][1] = icam.get(3, 1);  m[3][2] = icam.get(3, 2);  m[3][3] = icam.get(3, 3);
-	*/
-
+	cinv = rinv * tinv;
+	//cinv.print("Cinv: ");
 	return cinv;
 }

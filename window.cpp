@@ -146,19 +146,19 @@ void Window::displaySphere() {
 }
 
 void Window::displayHouse() {
-	//glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHTING);
 
 	
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 
 
 	// Tell OpenGL what ModelView matrix to use:
-	/*Matrix4 glmatrix;
+	Matrix4 glmatrix;
 	glmatrix = Globals::camera.getCameraMatrix();
 	glmatrix.transpose();
-	glLoadMatrixd(glmatrix.getPointer());*/
+	glLoadMatrixd(glmatrix.getPointer());
 
-	glLoadMatrixd(Globals::camera.getGLMatrix());
+	//glLoadMatrixd(Globals::camera.getGLMatrix()); // Not working
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 
@@ -183,14 +183,17 @@ void Window::displayBunny() {
 
 	Matrix4 glmatrix;
 	glmatrix = Globals::bunny.getMatrix();
+	glmatrix.identity();
 	glmatrix.transpose();
+	
 	glLoadMatrixd(glmatrix.getPointer());
 
-	glPointSize(5.0);
+	glPointSize(1.0);
 
 	glBegin(GL_POINTS);
-		Globals::bunny.renderModel();
+		Globals::bunny.renderScaledModel(80.0);
 	glEnd();
+
 	glFlush();
 	glutSwapBuffers();
 }
@@ -201,19 +204,23 @@ void Window::displayDragon() {
 	// Tell OpenGL what ModelView matrix to use:
 
 	Matrix4 glmatrix;
-	glmatrix = Globals::camera.getCameraMatrix();
+	glmatrix = Globals::dragon.getMatrix();
+	glmatrix.identity();
 	glmatrix.transpose();
 	glLoadMatrixd(glmatrix.getPointer());
 
 	glPointSize(5.0);
 
 	glBegin(GL_POINTS);
-	for (int i = 0; i < Globals::dragon.length(); ++i) {
-		glColor3f(0.0, 1.0, 0.0);
-		glNormal3d(Globals::dragon.getNorm(i).getx(), Globals::dragon.getNorm(i).gety(), Globals::dragon.getNorm(i).getz());
-		glVertex3d(Globals::dragon.getPos(i).getx(), Globals::dragon.getPos(i).gety(), Globals::dragon.getPos(i).getz());
-	}
+	
+		Globals::dragon.renderScaledModel(70.0);
+		
+		//glColor3f(0.0, 1.0, 0.0);
+		//glNormal3d(Globals::dragon.getNorm(i).getx(), Globals::dragon.getNorm(i).gety(), Globals::dragon.getNorm(i).getz());
+		//glVertex3d(Globals::dragon.getPos(i).getx(), Globals::dragon.getPos(i).gety(), Globals::dragon.getPos(i).getz());
+	
 	glEnd();
+
 	glFlush();
 	glutSwapBuffers();
 }
