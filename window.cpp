@@ -63,6 +63,7 @@ void Window::displayCallback() {
 }
 
 void Window::displayCube() {
+	glEnable(GL_LIGHTING);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 
@@ -125,6 +126,7 @@ void Window::displayCube() {
 }
 
 void Window::displaySphere() {
+	glEnable(GL_LIGHTING);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 
@@ -173,6 +175,7 @@ void Window::displayHouse() {
 }
 
 void Window::displayBunny() {
+	glDisable(GL_LIGHTING);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 
@@ -183,15 +186,15 @@ void Window::displayBunny() {
 
 	Matrix4 glmatrix;
 	glmatrix = Globals::bunny.getMatrix();
-	glmatrix.identity();
+	//glmatrix.identity();
 	glmatrix.transpose();
 	
 	glLoadMatrixd(glmatrix.getPointer());
 
-	glPointSize(1.0);
+	glPointSize(2.0);
 
 	glBegin(GL_POINTS);
-		Globals::bunny.renderScaledModel(80.0);
+		Globals::bunny.renderModel();
 	glEnd();
 
 	glFlush();
@@ -199,21 +202,27 @@ void Window::displayBunny() {
 }
 
 void Window::displayDragon() {
+	glDisable(GL_LIGHTING);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 	// Tell OpenGL what ModelView matrix to use:
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_POINT_SMOOTH);
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
+
 	Matrix4 glmatrix;
 	glmatrix = Globals::dragon.getMatrix();
-	glmatrix.identity();
+	//glmatrix.identity();
 	glmatrix.transpose();
 	glLoadMatrixd(glmatrix.getPointer());
 
-	glPointSize(5.0);
+	glPointSize(4.0);
 
 	glBegin(GL_POINTS);
 	
-		Globals::dragon.renderScaledModel(70.0);
+		Globals::dragon.renderModel();
 		
 		//glColor3f(0.0, 1.0, 0.0);
 		//glNormal3d(Globals::dragon.getNorm(i).getx(), Globals::dragon.getNorm(i).gety(), Globals::dragon.getNorm(i).getz());

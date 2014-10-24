@@ -148,13 +148,70 @@ void InputHandler::processNormalKeys(unsigned char key, int x, int y) {
 	// Bunny commands
 	else if (Globals::bunny.isVisible()) {
 		switch (key) {
+		case 'z':
+			Globals::bunny.getMatrix().makeRotateZ(-10);
+			break;
+		case 'Z':
+			Globals::bunny.getMatrix().makeRotateZ(10);
+			break;
+		case 'x':
+			Globals::bunny.getMatrix().makeRotateX(-10);
+			break;
+		case 'X':
+			Globals::bunny.getMatrix().makeRotateX(10);
+			break;
+		case 'y':
+			Globals::bunny.getMatrix().makeRotateY(-10);
+			break;
+		case 'Y':
+			Globals::bunny.getMatrix().makeRotateY(10);
+			break;
 		case 's':
 			// scale cube down (about its center, not the center of the screen)
-			Globals::bunny.getMatrix().makeScale(.9, .9, .9);
+			//Globals::bunny.getMatrix().makeScale(.9, .9, .9);
+			Globals::bunny.makeScale(.9);
 			break;
 		case 'S':
 			// scale cube up (about its center, not the center of the screen)
-			Globals::bunny.getMatrix().makeScale(1.1, 1.1, 1.1);
+			//Globals::bunny.getMatrix().makeScale(1.1, 1.1, 1.1);
+			Globals::bunny.makeScale(1.1);
+			break;
+		case 27: exit(0); break;
+		default:
+			return;
+		}
+	}
+
+	// Dragon commands
+	else if (Globals::dragon.isVisible()) {
+		switch (key) {
+		case 'z':
+			Globals::dragon.getMatrix().makeRotateZ(-10);
+			break;
+		case 'Z':
+			Globals::dragon.getMatrix().makeRotateZ(10);
+			break;
+		case 'x':
+			Globals::dragon.getMatrix().makeRotateX(-10);
+			break;
+		case 'X':
+			Globals::dragon.getMatrix().makeRotateX(10);
+			break;
+		case 'y':
+			Globals::dragon.getMatrix().makeRotateY(-10);
+			break;
+		case 'Y':
+			Globals::dragon.getMatrix().makeRotateY(10);
+			break;
+		case 's':
+			// scale cube down (about its center, not the center of the screen)
+			//Globals::bunny.getMatrix().makeScale(.9, .9, .9);
+			Globals::dragon.makeScale(.9);
+			break;
+		case 'S':
+			// scale cube up (about its center, not the center of the screen)
+			//Globals::bunny.getMatrix().makeScale(1.1, 1.1, 1.1);
+			Globals::dragon.makeScale(1.1);
 			break;
 		case 27: exit(0); break;
 		default:
@@ -202,7 +259,6 @@ void InputHandler::processSpecialKeys(int key, int x, int y) {
 		Globals::house.setVisible(false);
 		Globals::bunny.setVisible(true);
 		Globals::dragon.setVisible(false);
-		Globals::camera.getCameraMatrix().print();
 		break;
 	case GLUT_KEY_F5:
 		Globals::camera.reset();
@@ -211,8 +267,6 @@ void InputHandler::processSpecialKeys(int key, int x, int y) {
 		Globals::house.setVisible(false);
 		Globals::bunny.setVisible(false);
 		Globals::dragon.setVisible(true);
-		Globals::bunny.calcMinMax();
-		Globals::camera.getCameraMatrix().print();
 		break;
 	default:
 		break;

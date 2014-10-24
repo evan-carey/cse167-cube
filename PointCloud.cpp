@@ -6,6 +6,8 @@ PointCloud::PointCloud() {
 	norm = vector<Point3D>();
 	visible = false;
 	model2world = Matrix4();
+	model2world.identity();
+	scale = 1.0;
 }
 
 
@@ -15,9 +17,11 @@ PointCloud::PointCloud(char* fileName) {
 	ObjReader::readObj(fileName, pos, norm);
 	normalizeNorm();
 	model2world = Matrix4();
+	model2world.identity();
 	calcMinMax();
 	calcCenter();
 	translateToOrigin();
+	scale = 1.0;
 }
 
 
@@ -34,9 +38,14 @@ void PointCloud::createFromFile(char* fileName) {
 	ObjReader::readObj(fileName, pos, norm);
 	normalizeNorm();
 	model2world = Matrix4();
+	model2world.identity();
+
 	calcMinMax();
+	printMinMax();
 	calcCenter();
+
 	translateToOrigin();
+	makeScaleToFitWindow();
 }
 
 int PointCloud::length() {
@@ -60,17 +69,6 @@ void PointCloud::renderModel() {
 	}
 }
 
-void PointCloud::renderScaledModel(double s) {
-	for (int i = 0; i < this->length(); ++i) {
-
-		glColor3f(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
-
-		glNormal3d(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
-		glVertex3d(this->getPos(i).getx()*s, this->getPos(i).gety()*s, this->getPos(i).getz()*s);
-		
-		translateToOrigin(s);
-	}
-}
 
 void PointCloud::calcMinMax() {
 	// Minimums
@@ -93,27 +91,56 @@ void PointCloud::calcMinMax() {
 		if (it->getz() > maxZ) maxZ = it->getz();
 	}
 
-	//translateToOrigin();
 }
 
 void PointCloud::calcCenter() {
-	center = Vector3((minX + maxX) / 2.0, (minY + maxY) / 2.0, (minZ + maxZ) / 2.0);
+	center = Vector3(((maxX - minX) / 2.0) + minX, 
+					((maxY - minY) / 2.0) + minY, 
+					((maxZ - minZ) / 2.0) + minZ);
 }
 
 void PointCloud::translateToOrigin() {
-	if (center.getX() == 0.0 && center.getY() == 0.0 && center.getZ() == 0.0) return;
-	model2world.makeTranslate(-center.getX(), -center.getY(), -center.getZ());
-	setCenter(0, 0, 0);
-}
+	Matrix4 tm = Matrix4(1.0, 0.0, 0.0, -center.getX(),
+						0.0, 1.0, 0.0, -center.getY(),
+						0.0, 0.0, 1.0, -center.getZ(),
+						0.0, 0.0, 0.0, 1.0);
 
-void PointCloud::translateToOrigin(double s) {
-	if (center.getX() == 0.0 && center.getY() == 0.0 && center.getZ() == 0.0) return;
-	model2world.makeTranslate(-s * center.getX(), -s * center.getY(), -s * center.getZ());
-	setCenter(0, 0, 0);
+	tm.print("\nTranslation matrix:");
+
+	model2world *= tm;
+
+	for (vector<Point3D>::iterator it = pos.begin(); it != pos.end(); ++it) {
+		*it = tm * *it;
+	}
+
 }
 
 void PointCloud::printMinMax() {
-	printf("Min X: %f \tMax X: %f\n", minX, maxX);
+	printf("\nMin X: %f \tMax X: %f\n", minX, maxX);
 	printf("Min Y: %f \tMax Y: %f\n", minY, maxY);
 	printf("Min Z: %f \tMax Z: %f\n", minZ, maxZ);
+}
+
+void PointCloud::makeScale(double s) {
+	model2world.makeScale(s, s, s);
+}
+
+void PointCloud::makeScaleToFitWindow() {
+	double theta = 30.0;
+	theta = (theta / 180.0) * M_PI;
+	double adj = 20.0;
+
+	double op = adj * tan(theta);
+	double windowWidth = op * 2.0;
+
+	double scaleFactor = windowWidth / (maxX - minX);
+
+	Matrix4 sm = Matrix4(scaleFactor, 0.0, 0.0, 0.0,
+						0.0, scaleFactor, 0.0, 0.0,
+						0.0, 0.0, 1.0, 0.0, // sm[2][2] == 1.0 so the model won't be brought closer to the camera
+						0.0, 0.0, 0.0, 1.0);
+
+	sm.print("Scale Matrix:");
+
+	model2world *= sm;
 }

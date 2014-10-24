@@ -107,6 +107,16 @@ Vector4 Matrix4::operator*(const Vector4& v) {
 	return Vector4(x, y, z, w);
 }
 
+Point3D Matrix4::operator*(Point3D& v) {
+
+	double x = m[0][0] * v.getx() + m[0][1] * v.gety() + m[0][2] * v.getz() + m[0][3];
+	double y = m[1][0] * v.getx() + m[1][1] * v.gety() + m[1][2] * v.getz() + m[1][3];
+	double z = m[2][0] * v.getx() + m[2][1] * v.gety() + m[2][2] * v.getz() + m[2][3];
+	double w = m[3][0] * v.getx() + m[3][1] * v.gety() + m[3][2] * v.getz() + m[3][3];
+
+	return Point3D(x, y, z);
+}
+
 /**
  * Getters & Setters
  */
@@ -168,7 +178,7 @@ void Matrix4::transpose() {
 void Matrix4::makeRotateX(double angle) {
 	angle = (angle / 180.0) * M_PI;
 
-	Matrix4 rm = Matrix4(0.0, 0.0, 0.0, 0.0,
+	Matrix4 rm = Matrix4(1.0, 0.0, 0.0, 0.0,
 						0.0, cos(angle), -sin(angle), 0.0,
 						0.0, sin(angle), cos(angle), 0.0,
 						0.0, 0.0, 0.0, 1.0);

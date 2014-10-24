@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
   glutInit(&argc, argv);      	      	      // initialize GLUT
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);   // open an OpenGL context with double buffering, RGB colors, and depth buffering
   glutInitWindowSize(Window::width, Window::height);      // set initial window size
-  glutCreateWindow("OpenGL Cube");    	      // open window and set window title
+  glutCreateWindow("CSE167 - Evan Carey");    	      // open window and set window title
 
   glEnable(GL_DEPTH_TEST);            	      // enable depth buffering
   glClear(GL_DEPTH_BUFFER_BIT);       	      // clear depth buffer
@@ -73,14 +73,14 @@ int main(int argc, char *argv[]) {
   Globals::sphere.getMatrix().identity();
 
   // Initialize bunny
+  printf("\n-----Bunny-------------------------------\n");
   Globals::bunny.createFromFile("res/bunny.xyz");
-  printf("Bunny MinMax Coords:\n");
-  Globals::bunny.calcMinMax();
+  printf("-----------------------------------------\n");
 
   // Initialize dragon
+  printf("\n-----Dragon------------------------------\n");
   Globals::dragon.createFromFile("res/dragon.xyz");
-  printf("Dragon MinMax Coords:\n");
-  Globals::dragon.calcMinMax();
+  printf("-----------------------------------------\n");
   
   
   // Print position

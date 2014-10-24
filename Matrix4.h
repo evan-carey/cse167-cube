@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Vector3.h"
 #include "Vector4.h"
+#include "Point3D.h"
 
 using namespace std;
 
@@ -35,6 +36,8 @@ public:
 	Matrix4 operator*=(const Matrix4& m2);
 
 	Matrix4* multiply(Matrix4& m2);
+
+	Point3D operator*(Point3D&);
 
     double* getPointer();
 

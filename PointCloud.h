@@ -15,7 +15,10 @@ protected:
 
 	double minX, minY, minZ;
 	double maxX, maxY, maxZ;
+	double width, height;
 	Vector3 center;
+
+	double scale;
 
 public:
 	PointCloud();
@@ -29,13 +32,11 @@ public:
 	Point3D getNorm(unsigned int index) {
 		if (index < 0 || index > norm.size()) return NULL;
 		return norm.at(index);
-		//return norm[index];
 	}
 
 	Point3D getPos(unsigned int index) {
 		if (index < 0 || index > pos.size()) return NULL;
 		return pos.at(index);
-		//return pos[index];
 	}
 	void setVisible(bool v) { visible = v; }
 	bool isVisible() { return visible; }
@@ -50,7 +51,6 @@ public:
 	void normalizeNorm();
 
 	void renderModel();
-	void renderScaledModel(double);
 
 	Vector3& getCenter() { return center; }
 	void setCenter(double x, double y, double z) { center.set(x, y, z); }
@@ -59,8 +59,12 @@ public:
 	void calcMinMax();
 	void calcCenter();
 	void translateToOrigin();
-	void translateToOrigin(double);
 
 	void printMinMax();
+
+	void setScale(double s) { scale = s; }
+	double getScale() { return scale; }
+	void makeScale(double s);
+	void makeScaleToFitWindow();
 };
 
