@@ -10,7 +10,6 @@ PointCloud::PointCloud() {
 	scale = 1.0;
 }
 
-
 PointCloud::PointCloud(char* fileName) {
 	this->fileName = fileName;
 	visible = false;
@@ -24,13 +23,10 @@ PointCloud::PointCloud(char* fileName) {
 	scale = 1.0;
 }
 
-
 PointCloud::~PointCloud() {
 	pos.clear();
 	norm.clear();
 }
-
-
 
 void PointCloud::createFromFile(char* fileName) {
 	this->fileName = fileName;
@@ -58,17 +54,16 @@ void PointCloud::normalizeNorm() {
 	}
 }
 
-void PointCloud::renderModel() {
-	for (int i = 0; i < this->length(); ++i) {
-		
-		glColor3f(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
-
-		glNormal3d(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
-		glVertex3d(this->getPos(i).getx(), this->getPos(i).gety(), this->getPos(i).getz());
-		
-	}
-}
-
+//void PointCloud::renderModel() {
+//	for (int i = 0; i < this->length(); ++i) {
+//		
+//		glColor3f(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
+//
+//		glNormal3d(this->getNorm(i).getx(), this->getNorm(i).gety(), this->getNorm(i).getz());
+//		glVertex3d(this->getPos(i).getx(), this->getPos(i).gety(), this->getPos(i).getz());
+//		
+//	}
+//}
 
 void PointCloud::calcMinMax() {
 	// Minimums
@@ -76,7 +71,6 @@ void PointCloud::calcMinMax() {
 	// Maximums
 	maxX = maxY = maxZ = numeric_limits<double>::min();
 
-	
 	for (vector<Point3D>::iterator it = pos.begin(); it != pos.end(); ++it) {
 		// X
 		if (it->getx() < minX) minX = it->getx();
@@ -90,7 +84,6 @@ void PointCloud::calcMinMax() {
 		if (it->getz() < minZ) minZ = it->getz();
 		if (it->getz() > maxZ) maxZ = it->getz();
 	}
-
 }
 
 void PointCloud::calcCenter() {
@@ -112,7 +105,6 @@ void PointCloud::translateToOrigin() {
 	for (vector<Point3D>::iterator it = pos.begin(); it != pos.end(); ++it) {
 		*it = tm * *it;
 	}
-
 }
 
 void PointCloud::printMinMax() {

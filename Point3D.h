@@ -27,8 +27,14 @@ public:
 	void setz(double z) { this->z = z; }
 
 	double length() { return sqrt(x*x + y*y + z*z); }
+
 	void scale(double s) { x *= s; y *= s; z *= s; }
-	void normalize() { double l = length(); if (l <= 0.0)return; scale(1.0 / l); }
+	
+	void normalize() { 
+		double l = length(); 
+		if (l <= 0.0) return; 
+		scale(1.0 / l);
+	}
 	
 	void print(std::string comment) {
 		printf("%s (%.2f, %.2f, %.2f)\n", comment.c_str(), x, y, z);

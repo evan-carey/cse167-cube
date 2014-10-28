@@ -6,19 +6,6 @@ void House::renderHouse() {
 	int nVerts = 42;    // your vertex array needs to have this many entries
 
 	// These are the x,y,z coordinates of the vertices of the triangles
-	float vertices[126] = {
-		-4, -4, 4, 4, -4, 4, 4, 4, 4, -4, 4, 4,     // front face
-		-4, -4, -4, -4, -4, 4, -4, 4, 4, -4, 4, -4, // left face
-		4, -4, -4, -4, -4, -4, -4, 4, -4, 4, 4, -4,  // back face
-		4, -4, 4, 4, -4, -4, 4, 4, -4, 4, 4, 4,     // right face
-		4, 4, 4, 4, 4, -4, -4, 4, -4, -4, 4, 4,     // top face
-		-4, -4, 4, -4, -4, -4, 4, -4, -4, 4, -4, 4, // bottom face
-
-		-20, -4, 20, 20, -4, 20, 20, -4, -20, -20, -4, -20, // grass
-		-4, 4, 4, 4, 4, 4, 0, 8, 4,                       // front attic wall
-		4, 4, 4, 4, 4, -4, 0, 8, -4, 0, 8, 4,               // left slope
-		-4, 4, 4, 0, 8, 4, 0, 8, -4, -4, 4, -4,             // right slope
-		4, 4, -4, -4, 4, -4, 0, 8, -4 };                   // rear attic wall
 	Vector3 verticesV[] = {
 		Vector3(-4, -4, 4), Vector3(4, -4, 4), Vector3(4, 4, 4), Vector3(-4, 4, 4),       // front face
 		Vector3(-4, -4, -4), Vector3(-4, -4, 4), Vector3(-4, 4, 4), Vector3(-4, 4, -4),       // left face
@@ -34,7 +21,7 @@ void House::renderHouse() {
 		Vector3(4, 4, -4), Vector3(-4, 4, -4), Vector3(0, 8, -4)                            // rear attic wall
 	};
 	// These are the RGB colors corresponding to the vertices, in the same order
-	float colors[126] = {
+	float colors[] = {
 		1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,  // front is red
 		0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0,  // left is green
 		1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0,  // back is red
@@ -50,7 +37,7 @@ void House::renderHouse() {
 
 	// The index data stores the connectivity of the triangles; 
 	// index 0 refers to the first triangle defined above
-	int indices[60] = {
+	int indices[] = {
 		0, 2, 3, 0, 1, 2,      // front face
 		4, 6, 7, 4, 5, 6,      // left face
 		8, 10, 11, 8, 9, 10,     // back face
@@ -64,16 +51,6 @@ void House::renderHouse() {
 		35, 37, 38, 35, 36, 37,   // right slope
 		39, 40, 41 };            // rear attic wall
 
-
-	
-	/*int pointIndex;
-	for (int tri = 0; tri < 20; tri++) {
-		for (int pointNumber = 0; pointNumber < 3; pointNumber++) {
-			pointIndex = indices[tri * 3];
-			glColor3fv(&colors[pointIndex * 3]);
-			glVertex3fv(&vertices[pointIndex * 3]);
-		}
-	}*/
 	for (int i = 0; i < 60; i += 3) {
 		glColor3f(colors[indices[i] * 3], colors[indices[i] * 3 + 1], colors[indices[i] * 3 + 2]);
 
@@ -87,5 +64,4 @@ void House::renderHouse() {
 	
 }
 
-// This data structure defines a simple house
 

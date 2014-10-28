@@ -149,10 +149,8 @@ void Window::displaySphere() {
 
 void Window::displayHouse() {
 	glDisable(GL_LIGHTING);
-
-	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
-
 
 	// Tell OpenGL what ModelView matrix to use:
 	Matrix4 glmatrix;
@@ -160,15 +158,9 @@ void Window::displayHouse() {
 	glmatrix.transpose();
 	glLoadMatrixd(glmatrix.getPointer());
 
-	//glLoadMatrixd(Globals::camera.getGLMatrix()); // Not working
-
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
-
-	glMatrixMode(GL_MODELVIEW);
 	glBegin(GL_TRIANGLES);
 		Globals::house.renderHouse();
 	glEnd();
-
 
 	glFlush();
 	glutSwapBuffers();
@@ -179,22 +171,30 @@ void Window::displayBunny() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
 
+	// Use circular pixels
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_POINT_SMOOTH);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
+	// Tell OpenGL what ModelView matrix to use:
 	Matrix4 glmatrix;
 	glmatrix = Globals::bunny.getMatrix();
-	//glmatrix.identity();
 	glmatrix.transpose();
-	
 	glLoadMatrixd(glmatrix.getPointer());
 
 	glPointSize(2.0);
 
 	glBegin(GL_POINTS);
-		Globals::bunny.renderModel();
+		// render bunny model
+		for (int i = 0; i < Globals::bunny.length(); ++i) {
+
+			glColor3f(fabs(Globals::bunny.getNorm(i).getx()), fabs(Globals::bunny.getNorm(i).gety()), fabs(Globals::bunny.getNorm(i).getz()));
+
+			glNormal3d(Globals::bunny.getNorm(i).getx(), Globals::bunny.getNorm(i).gety(), Globals::bunny.getNorm(i).getz());
+			glVertex3d(Globals::bunny.getPos(i).getx(), Globals::bunny.getPos(i).gety(), Globals::bunny.getPos(i).getz());
+
+		}
 	glEnd();
 
 	glFlush();
@@ -205,29 +205,31 @@ void Window::displayDragon() {
 	glDisable(GL_LIGHTING);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
 	glMatrixMode(GL_MODELVIEW);  // make sure we're in Modelview mode
-	// Tell OpenGL what ModelView matrix to use:
 
+	// use circular pixels
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_POINT_SMOOTH);
 	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 
+	// Tell OpenGL what ModelView matrix to use:
 	Matrix4 glmatrix;
 	glmatrix = Globals::dragon.getMatrix();
-	//glmatrix.identity();
 	glmatrix.transpose();
 	glLoadMatrixd(glmatrix.getPointer());
 
-	glPointSize(4.0);
+	glPointSize(4.0); // enlarge points
 
 	glBegin(GL_POINTS);
-	
-		Globals::dragon.renderModel();
+		// render dragon model
+		for (int i = 0; i < Globals::dragon.length(); ++i) {
+
+			glColor3f(fabs(Globals::dragon.getNorm(i).getx()), fabs(Globals::dragon.getNorm(i).gety()), fabs(Globals::dragon.getNorm(i).getz()));
+
+			glNormal3d(Globals::dragon.getNorm(i).getx(), Globals::dragon.getNorm(i).gety(), Globals::dragon.getNorm(i).getz());
+			glVertex3d(Globals::dragon.getPos(i).getx(), Globals::dragon.getPos(i).gety(), Globals::dragon.getPos(i).getz());
 		
-		//glColor3f(0.0, 1.0, 0.0);
-		//glNormal3d(Globals::dragon.getNorm(i).getx(), Globals::dragon.getNorm(i).gety(), Globals::dragon.getNorm(i).getz());
-		//glVertex3d(Globals::dragon.getPos(i).getx(), Globals::dragon.getPos(i).gety(), Globals::dragon.getPos(i).getz());
-	
+		}
 	glEnd();
 
 	glFlush();

@@ -1,7 +1,6 @@
 #pragma once
 #include "ObjReader.h"
 #include "Matrix4.h"
-#include "GL\glut.h"
 
 class PointCloud {
 protected:
@@ -50,7 +49,7 @@ public:
 
 	void normalizeNorm();
 
-	void renderModel();
+	// void renderModel();
 
 	Vector3& getCenter() { return center; }
 	void setCenter(double x, double y, double z) { center.set(x, y, z); }
