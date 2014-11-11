@@ -7,6 +7,7 @@
 #include "Matrix4.h"
 #include "main.h"
 #include "House.h"
+#include "TimeManager.h"
 
 using namespace std;
 
@@ -15,8 +16,7 @@ int Window::height = 512;   // set window height in pixels here
 
 //----------------------------------------------------------------------------
 // Callback method called when system is idle.
-void Window::idleCallback()
-{
+void Window::idleCallback() {
 	if (Globals::cube.isVisible()) {
 		Globals::cube.spin(Globals::cube.getSpinAngle());   // rotate cube; if it spins too fast try smaller values and vice versa
 	}
@@ -29,9 +29,7 @@ void Window::idleCallback()
 
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when graphics window is resized by the user
-void Window::reshapeCallback(int w, int h)
-{
-  cerr << "Window::reshapeCallback called" << endl;
+void Window::reshapeCallback(int w, int h) {
   width = w;
   height = h;
   glViewport(0, 0, w, h);  // set new viewport size
@@ -45,6 +43,10 @@ void Window::reshapeCallback(int w, int h)
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when window readraw is necessary or when glutPostRedisplay() was called.
 void Window::displayCallback() {
+	// display fps in console
+	TimeManager::Instance().CalculateFrameRate(true);
+
+
 	if (Globals::cube.isVisible()) {
 		displayCube();
 	}
@@ -155,6 +157,7 @@ void Window::displayHouse() {
 	// Tell OpenGL what ModelView matrix to use:
 	Matrix4 glmatrix;
 	glmatrix = Globals::camera.getCameraMatrix();
+	glmatrix.print("Camera Matrix:");
 	glmatrix.transpose();
 	glLoadMatrixd(glmatrix.getPointer());
 

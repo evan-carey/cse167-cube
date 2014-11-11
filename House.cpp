@@ -51,6 +51,7 @@ void House::renderHouse() {
 		35, 37, 38, 35, 36, 37,   // right slope
 		39, 40, 41 };            // rear attic wall
 
+
 	for (int i = 0; i < 60; i += 3) {
 		glColor3f(colors[indices[i] * 3], colors[indices[i] * 3 + 1], colors[indices[i] * 3 + 2]);
 
