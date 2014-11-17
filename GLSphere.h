@@ -19,14 +19,14 @@ public:
 			bool visible = true, bool solid = true);
 	~GLSphere();
 
-	void setRadius(GLdouble rad) { radius = rad; }
+	void setRadius(GLdouble rad);
 	void setColor(float r, float g, float b) { color.r = r; color.g = g; color.b = b; }
 	void setVisible(bool v) { visible = v; }
 
 	bool isVisible() { return visible; }
 	GLdouble getRadius() { return radius; }
 
-	void draw(Matrix4);
+	//void draw(Matrix4);
 
 	void render();
 };

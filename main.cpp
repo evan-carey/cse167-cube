@@ -3,24 +3,28 @@
 #include <iostream>
 
 #include <GL/glut.h>
-
 #include "Window.h"
-#include "Cube.h"
-#include "Sphere.h"
 #include "Matrix4.h"
-#include "House.h"
 #include "main.h"
 #include "InputHandler.h"
+#include <time.h>
 
 using namespace std;
+
 
 namespace Globals {
 	Cube cube;
 	Sphere sphere;
-	Camera camera;
+	Camera* camera;
 	House house;
 	PointCloud bunny;
 	PointCloud dragon;
+	std::vector<Robot*> robots;
+	double currentRotationAngle;
+	bool showBoundingSpheres = false;
+	bool cullingEnabled = true;
+	Frustum* frustum;
+	Plane* planes;
 };
 
 int main(int argc, char *argv[]) {
@@ -67,25 +71,51 @@ int main(int argc, char *argv[]) {
   glutSpecialFunc(InputHandler::processSpecialKeys);
     
   // Initialize cube matrix:
-  Globals::cube.getMatrix().identity();
+  //Globals::cube.getMatrix().identity();
 
   // Initialize sphere matrix
-  Globals::sphere.getMatrix().identity();
+  //Globals::sphere.getMatrix().identity();
 
   // Initialize bunny
-  printf("\n-----Bunny-------------------------------\n");
-  Globals::bunny.createFromFile("res/bunny.xyz");
-  printf("-----------------------------------------\n");
+  //printf("\n-----Bunny-------------------------------\n");
+  //Globals::bunny.createFromFile("res/bunny.xyz");
+  //printf("-----------------------------------------\n");
 
   // Initialize dragon
-  printf("\n-----Dragon------------------------------\n");
-  Globals::dragon.createFromFile("res/dragon.xyz");
-  printf("-----------------------------------------\n");
+  //printf("\n-----Dragon------------------------------\n");
+  //Globals::dragon.createFromFile("res/dragon.xyz");
+  //printf("-----------------------------------------\n");
   
   
   // Print position
   //Globals::cube.getMatrix().print("Initial Matrix: ");
-    
+
+  // Initialize camera
+  Globals::camera = new Camera();
+  Globals::camera->set(Vector3(3, 5, 5), Vector3(-5, 0, -5), Vector3(0, 1, 0));
+  //Globals::camera->set(Vector3(0, 10, 10), Vector3(0, 0, 0), Vector3(0, 1, 0));
+  //Globals::camera->translate(0, 0, -20);
+
+  // Initialize frustum
+  Globals::frustum = new Frustum(60.0, (double)Window::width / (double)Window::height, 1.0, 1000.0);
+  Globals::planes = new Plane[6];
+  // Initialize robots
+  Matrix4 c;
+  c.identity();
+
+  Matrix4 offset;
+  offset.identity();
+  offset.makeTranslate(0, 0, 4);
+
+  for (int i = 0; i < (int)(sqrt(NUM_ROBOTS)); ++i) {
+	  for (int j = 0; j < (int)(sqrt(NUM_ROBOTS)); ++j) {
+		  offset.identity();
+		  offset.makeTranslate(-i * 3, 0.0, -j * 3);
+		  Globals::robots.push_back(new Robot(offset));
+		  //printf("%d\n", i * j + j);
+	  }
+  }
+
   glutMainLoop();
   return 0;
 }

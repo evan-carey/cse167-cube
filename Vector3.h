@@ -13,6 +13,7 @@ protected:
 public:
 	/* Constructor */
 	Vector3(double x = 0.0, double y = 0.0, double z = 0.0);
+	Vector3(const Vector3&);
 
 	/* Destructor*/
 	virtual ~Vector3() {}
@@ -22,6 +23,7 @@ public:
 	Vector3 operator+(const Vector3&); // overload operator '+' for addition
 	Vector3 operator-(const Vector3&); // overload operator '-' for subtraction
 	double operator[](const int i);
+	Vector3 operator*(const double);
 
 	void set(double x0, double y0, double z0);
 	double get(int index);

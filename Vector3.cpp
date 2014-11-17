@@ -6,6 +6,10 @@ Vector3::Vector3(double x, double y, double z) {
 	set(x, y, z);
 }
 
+Vector3::Vector3(const Vector3& other) {
+	set(other.getX(), other.getY(), other.getZ());
+}
+
 Vector3& Vector3::operator= (const Vector3 &v) {
 	vec[0] = v.getX();
 	vec[1] = v.getY();
@@ -24,6 +28,10 @@ Vector3 Vector3::operator-(const Vector3& other) {
 
 double Vector3::operator[](const int i) {
 	return this->get(i);
+}
+
+Vector3 Vector3::operator*(double d) {
+	return Vector3(getX()*d, getY()*d, getZ()*d);
 }
 
 void Vector3::set(double x, double y, double z) {

@@ -12,10 +12,12 @@
 namespace Globals { 
 	extern Cube cube; 
 	extern Sphere sphere;
-	extern Camera camera;
+	extern Camera* camera;
 	extern House house;
 	extern PointCloud bunny;
 	extern PointCloud dragon;
+	extern bool showBoundingSpheres;
+	extern bool cullingEnabled;
 };
 
 class InputHandler {

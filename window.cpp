@@ -8,11 +8,14 @@
 #include "main.h"
 #include "House.h"
 #include "TimeManager.h"
+#include "Robot.h"
+#include "Frustum.h"
 
 using namespace std;
 
-int Window::width  = 512;   // set window width in pixels here
-int Window::height = 512;   // set window height in pixels here
+int Window::width  = 1000;   // set window width in pixels here
+int Window::height = 600;   // set window height in pixels here
+
 
 //----------------------------------------------------------------------------
 // Callback method called when system is idle.
@@ -35,19 +38,34 @@ void Window::reshapeCallback(int w, int h) {
   glViewport(0, 0, w, h);  // set new viewport size
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective(60.0, double(width)/(double)height, 1.0, 1000.0); // set perspective projection viewing frustum
-  glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
+  Globals::frustum->setAspect((double)width / (double)height);
+  Matrix4 glmatrix;
+  glmatrix = Globals::frustum->getProjectionMatrix();
+  glmatrix.transpose();
+  //glLoadMatrixd(glmatrix.getPointer());
+  gluPerspective(Globals::frustum->getFOV(), Globals::frustum->getAspect(), Globals::frustum->getNear(), Globals::frustum->getFar());
+  Globals::frustum->init(Globals::camera, Globals::planes);
+  //Globals::frustum->setGLMatrix();
+  //gluPerspective(60.0, double(width)/(double)height, 1.0, 50.0); // set perspective projection viewing frustum
+  //glTranslatef(0, 0, -20);    // move camera back 20 units so that it looks at the origin (or else it's in the origin)
   glMatrixMode(GL_MODELVIEW);
 }
 
 //----------------------------------------------------------------------------
 // Callback method called by GLUT when window readraw is necessary or when glutPostRedisplay() was called.
 void Window::displayCallback() {
+	glEnable(GL_LIGHTING);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  // clear color and depth buffers
+	glMatrixMode(GL_MODELVIEW);
+
 	// display fps in console
 	TimeManager::Instance().CalculateFrameRate(true);
+	
+	Globals::frustum->init(Globals::camera, Globals::planes);
+	
+	displayRobots();
 
-
-	if (Globals::cube.isVisible()) {
+	/*if (Globals::cube.isVisible()) {
 		displayCube();
 	}
 	if (Globals::sphere.isVisible()) {
@@ -61,6 +79,18 @@ void Window::displayCallback() {
 	}
 	if (Globals::dragon.isVisible()) {
 		displayDragon();
+	}*/
+	glFlush();
+	glutSwapBuffers();
+}
+
+
+void Window::displayRobots() {
+	glColor3f(0.8, 0.8, 0.8);
+
+	for (Robot* robot : Globals::robots) {
+		if (robot != NULL)
+			robot->draw(Globals::camera->getCInv());
 	}
 }
 
@@ -156,7 +186,7 @@ void Window::displayHouse() {
 
 	// Tell OpenGL what ModelView matrix to use:
 	Matrix4 glmatrix;
-	glmatrix = Globals::camera.getCameraMatrix();
+	glmatrix = Globals::camera->getCameraMatrix();
 	glmatrix.print("Camera Matrix:");
 	glmatrix.transpose();
 	glLoadMatrixd(glmatrix.getPointer());

@@ -12,5 +12,6 @@ public:
 
 	void setM(Matrix4 M) { this->M = M; }
 	Matrix4 getM() { return M; }
+
 };
 

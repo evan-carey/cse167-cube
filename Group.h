@@ -4,16 +4,17 @@
 
 class Group : public Node {
 protected:
-	std::list<Node*> children;
+	std::list<Node*> *children;
 
 public:
 	Group(char* n = "");
-	virtual ~Group() { children.clear(); }
+	Group(const Group&);
+	virtual ~Group();
 
 	void addChild(Node*); // Add child
-	void removeChild(Node*); // Remove child
-	void removeChild(char* nodeName); // Remove child by name
-	void removeChild(int i); // Remove child by index
+	bool removeChild(Node*); // Remove child
+	bool removeChild(char* nodeName); // Remove child by name
+	bool removeChild(int i); // Remove child by index
 
 	void setParent(Node& p) { *this->parent = p; }
 
